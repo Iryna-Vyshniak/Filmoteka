@@ -20,11 +20,47 @@ try {
 
 export let allProducts = null;
 
+
 async function startPage() {
+  const genresIds = await themoviedbAPI.fetchGenres();
   const trendMovies = await themoviedbAPI.fetchFavouritesMovies();
-  const markup = trendMovies.results.map(renderMarkup).join('');
+
+  const markup = trendMovies.results
+    .map(movie => {
+      const genresName = [];
+
+      movie.genre_ids.forEach(genre => {
+        themoviedbAPI.genres.forEach(item => {
+          if (item.id === genre) {
+            genresName.push(item.name);
+          }
+        });
+      });
+      if (genresName.length > 2) {
+        genresName.splice(2, genresName.length - 1, 'Other');
+      }
+      return renderMarkup(movie, genresName.join(', '));
+    })
+    .join('');
   refs.gallery.innerHTML = markup;
-  allProducts = [...getItems()];
 }
 
-// startPage();
+
+//  HEADER
+
+
+const onSearchFormSubmit = async event => {
+  event.preventDefault();
+  themoviedbAPI.query = event.target.elements.search.value;
+
+  try {
+    const searchMovies = await themoviedbAPI.fetchMoviesByQuery();
+    const markup = searchMovies.results.map(renderMarkup).join('');
+    refs.gallery.innerHTML = markup;
+  }
+  catch (err) {
+    console.log(err)
+  }
+  event.target.reset();
+}
+refs.formEl.addEventListener('submit', onSearchFormSubmit);
