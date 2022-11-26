@@ -42,6 +42,10 @@ a {
   text-decoration: none;
 }
 
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
 .container {
   width: 100%;
   margin: 0 auto;
