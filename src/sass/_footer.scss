@@ -103,6 +103,66 @@
   }
 }
 
+// MODAL-BTN-CLOSE
+.modal__button-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  padding: 0;
+  margin: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  background: transparent;
+  box-shadow: -2px -2px 5px white, 3px 3px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: inset -1px -1px 3px white, inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  &:hover ~ .modal__cross {
+    fill: $accent-color;
+    transform: scale(0.8);
+  }
+
+  &:active ~ .modal__cross {
+    fill: $accent-color;
+  }
+
+  &:active {
+    box-shadow: inset -1px -1px 3px white,
+      inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  &:hover ~ .modal__cross {
+    fill: $accent-color;
+  }
+}
+
+.modal__icon-close {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-45%, -45%);
+
+  width: 20px;
+  height: 20px;
+
+  .modal__button-close:focus > &,
+  .modal__button-close:hover > & {
+    fill: $accent-color;
+    transition: fill 0.2s ease-in-out;
+    cursor: pointer;
+  }
+
+}
+
+
+
 // MODAL-TEAM
 
 .team {
