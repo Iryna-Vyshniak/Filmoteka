@@ -21,7 +21,6 @@ try {
 
 export let allProducts = null;
 
-
 async function startPage() {
   const genresIds = await themoviedbAPI.fetchGenres();
   const trendMovies = await themoviedbAPI.fetchFavouritesMovies();
@@ -47,9 +46,7 @@ async function startPage() {
   allProducts = [...getItems()];
 }
 
-
 //  HEADER
-
 
 const onSearchFormSubmit = async event => {
   event.preventDefault();
@@ -59,19 +56,16 @@ const onSearchFormSubmit = async event => {
     const searchMovies = await themoviedbAPI.fetchMoviesByQuery();
     const markup = searchMovies.results.map(renderMarkup).join('');
     refs.gallery.innerHTML = markup;
-  }
-  catch (err) {
-    console.log(err)
+    allProducts = [...getItems()];
+  } catch (err) {
+    console.log(err);
   }
   event.target.reset();
 };
 
 refs.formEl.addEventListener('submit', onSearchFormSubmit);
 
-
-
 // SPINNER
-
 
 // function spinnerPlay() {
 //   document.querySelector('body').classList.add('loading');
