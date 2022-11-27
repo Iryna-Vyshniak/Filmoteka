@@ -311,10 +311,12 @@ body.dark-theme {
   height: 32px;
   border-radius: 50em;
   padding: 3px 0;
-  box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;
+  box-shadow: inset 0.5px 0.5px 1px #babecc, inset -0.5px -0.5px 1px rgb(97, 7, 7);
 
-  &:focus {
-    box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;
+  &:focus,
+  &:hover,
+  &:checked {
+    box-shadow: inset 0.5px 0.5px 0.5px #babecc, inset -0.5px -0.5px 0.5px rgb(97, 7, 7);
   }
 }
 
@@ -352,12 +354,12 @@ body.dark-theme {
   border-radius: 50%;
   z-index: 2;
   pointer-events: none;
-  box-shadow: inset 0.5px 0.5px 1px #babecc, inset -0.5px -0.5px 1px #fff;
+  box-shadow: inset 0.5px 0.5px 1px #f1f3fb, inset -0.5px -0.5px 1px #fff;
   transform: translateX(3px);
   transition: transform 250ms linear;
 
   &:focus {
-    box-shadow: inset 0.5px 0.5px 1px #babecc, inset -0.5px -0.5px 1px #fff;
+    box-shadow: inset 0.5px 0.5px 1px #e4e3e3, inset -0.5px -0.5px 1px #fff;
   }
 }
 
@@ -367,12 +369,15 @@ body.dark-theme {
 
 .theme-switch__toggle:checked ~ .theme-switch__marker {
   transform: translateX(35px);
+  background-color: transparent;
+  box-shadow: inset -4px -0.5px 1px 1px rgb(255, 221, 0);
 }
 
-.theme-switch__toggle:focus ~ .theme-switch__marker,
-.theme-switch__toggle:active ~ .theme-switch__marker {
-  background-color: #ffe9b7;
-  box-shadow: 0 0 2px 2px #ffe9b7, 0 0 4px 3px #ffdb8c, 0 0 9px 5px #ffd16d;
+// .theme-switch__toggle:focus ~ .theme-switch__marker,
+// .theme-switch__toggle:active ~ .theme-switch__marker,
+.theme-switch__toggle:not(:checked) ~ .theme-switch__marker {
+  background-color: #ff9500b9;
+  box-shadow: 0 0 5px 2px #ffb744, 0 0 6px 3px #ffe1a1, 0 0 7px 5px #fef483;
 }
 
 //  GALLERY LIBRARY EMPTY LIST
@@ -411,12 +416,10 @@ body.dark-theme {
   text-transform: uppercase;
   letter-spacing: 1rem;
   overflow: hidden;
-  background: linear-gradient(
-    290deg,
-    rgb(81, 28, 0),
-    rgb(238, 238, 238),
-    rgb(255, 98, 0)
-  );
+  background: linear-gradient(290deg,
+      rgb(81, 28, 0),
+      rgb(238, 238, 238),
+      rgb(255, 98, 0));
   background-repeat: no-repeat;
   background-size: 100%;
   -webkit-background-clip: text;
@@ -446,11 +449,8 @@ body.dark-theme {
     left: 0;
     color: rgb(0, 0, 0);
     filter: blur(1.2vmin);
-    transform: scale(1.5) translate3d(0, 12%, -10vmin)
-      translate(
-        calc((var(--swing-x, 0) * 0.05) * 1%),
-        calc((var(--swing-y) * 0.05) * 1%)
-      );
+    transform: scale(1.5) translate3d(0, 12%, -10vmin) translate(calc((var(--swing-x, 0) * 0.05) * 1%),
+        calc((var(--swing-y) * 0.05) * 1%));
   }
 }
 
@@ -465,11 +465,9 @@ body.dark-theme {
   width: 100%;
   transform-origin: 50% 30%;
   transform: rotate(calc(var(--swing-x) * -0.25deg));
-  background: radial-gradient(
-    50% 40% at 50% 42%,
-    transparent,
-    rgb(101, 0, 0) 35%
-  );
+  background: radial-gradient(50% 40% at 50% 42%,
+      transparent,
+      rgb(101, 0, 0) 35%);
 }
 
 .cloak__wrapper {
