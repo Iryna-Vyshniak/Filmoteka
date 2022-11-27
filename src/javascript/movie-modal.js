@@ -118,9 +118,11 @@ function getTrailer(filmId) {
 function onAddToWatchedClick(event) {
     event.preventDefault();
     event.target.textContent = 'Added to watched';
+    event.target.disabled = true;
 }
 
 function onAddToQuequeClick(event) {
     event.preventDefault();
     event.target.textContent = 'Added to queque';
+    event.target.disabled = true;
 }
