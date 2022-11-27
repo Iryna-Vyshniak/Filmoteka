@@ -39,13 +39,13 @@ $desktop: 1280px;
 }
 
 @mixin max-tablet {
-  @media screen and (max-width: 1199.98px) {
+  @media screen and (max-width: 1279.98px) {
     @content;
   }
 }
 
 @mixin desktop {
-  @media screen and (min-width: 1200px) {
+  @media screen and (min-width: 1280px) {
     @content;
   }
 }
