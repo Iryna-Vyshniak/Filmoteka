@@ -60,13 +60,14 @@ async function onFilmCardClick(event) {
         vote_average: data.vote_average,
         vote_count: data.vote_count,
       };
-
+      const stringifiedJSONFilmData = JSON.stringify(filmData);
+      console.log('stringifiedJSONFilmData', stringifiedJSONFilmData);
       data.genres.forEach(genre => {
         filmData.genres.push(genre.name);
       });
       filmData.genres = filmData.genres.join(', ');
 
-      createModalMarkUp(filmData);
+      createModalMarkUp(filmData, stringifiedJSONFilmData);
 
       getTrailer(filmId);
 

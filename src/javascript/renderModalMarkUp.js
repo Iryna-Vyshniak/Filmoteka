@@ -1,16 +1,19 @@
 import * as basicLightbox from 'basiclightbox';
 
-export function createModalMarkUp({
-  id,
-  poster,
-  title,
-  originalTitle,
-  genres,
-  popularity,
-  overview,
-  vote_average,
-  vote_count,
-}) {
+export function createModalMarkUp(
+  {
+    id,
+    poster,
+    title,
+    originalTitle,
+    genres,
+    popularity,
+    overview,
+    vote_average,
+    vote_count,
+  },
+  stringifiedJSONFilmData
+) {
   const instance = basicLightbox.create(
     `
    <div class="lightbox-modal">
@@ -63,8 +66,8 @@ ${overview}
 </p>
 
 <div class="lightbox-modal__buttons">
-<button type="button" class="lightbox-modal__watched-button" data-id="${id}">Add to Watched</button>
-<button type="button" class="lightbox-modal__queque-button" data-id="${id}">Add to queue</button>
+<button type="button" class="lightbox-modal__watched-button" data-id="${stringifiedJSONFilmData}">Add to Watched</button>
+<button type="button" class="lightbox-modal__queque-button" data-id="${stringifiedJSONFilmData}">Add to queue</button>
 </div>
 
 </div>`,
