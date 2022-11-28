@@ -11,20 +11,12 @@ export const set = (key, value) => {
   try {
     const locStorage = get(key);
     const currentFilm = JSON.parse(value);
-    if (locStorage.length === 0) {
+    const includesFilm = locStorage.find(film => film.id === currentFilm.id);
+    if (locStorage.length === 0 || !includesFilm) {
       locStorage.push(currentFilm);
-    } else {
-      const includeFilm = locStorage.find(film => {
-        film.id === currentFilm.id;
-
-      });
-      if (includeFilm !== undefined) {
-        locStorage.push(includeFilm);
-        localStorage.setItem(key, JSON.stringify(locStorage));
-      }
     }
 
-
+    localStorage.setItem(key, JSON.stringify(locStorage));
   } catch (error) {
     console.log('Set state error: ', error);
   }
