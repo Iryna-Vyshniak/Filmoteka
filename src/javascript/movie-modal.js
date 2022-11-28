@@ -1,8 +1,9 @@
 import { refs } from './refs';
 import { allProducts } from '/src/index';
-import { createModalMarkUp } from './renderMarkup';
+import { createModalMarkUp } from './renderModalMarkUp';
 import { ThemoviedbAPI } from './themoviedbAPI';
 import BigPicture from 'bigpicture';
+import { set, get, remove } from './localStorageUse';
 
 const movieAPI = new ThemoviedbAPI();
 
@@ -123,6 +124,7 @@ function onAddToWatchedClick(event) {
   event.preventDefault();
   event.target.textContent = 'Added to watched';
   event.target.disabled = true;
+  set(movieAPI.WATCH_KEY, event.target.dataset.id);
 }
 
 function onAddToQuequeClick(event) {
