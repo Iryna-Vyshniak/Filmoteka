@@ -54,19 +54,17 @@ async function onFilmCardClick(event) {
       const filmData = {
         id: data.id,
         poster: posterPath,
-        title: data.title,
-        originalTitle: data.original_title,
+        title: data.title.replaceAll("'", '`'),
+        originalTitle: data.original_title.replaceAll("'", '`'),
         genres: [],
         popularity: data.popularity,
-        overview: data.overview,
+        overview: data.overview.replaceAll("'", '`'),
         vote_average: data.vote_average,
         vote_count: data.vote_count,
         release_date: releaseYear,
       };
 
-
       const stringifiedJSONFilmData = JSON.stringify(filmData);
-
       data.genres.forEach(genre => {
         filmData.genres.push(genre.name);
       });
@@ -82,6 +80,18 @@ async function onFilmCardClick(event) {
 
       const addToQuequeBtn = document.querySelector(
         '.lightbox-modal__queque-button'
+      );
+      checkLocalStorage(
+        movieAPI.WATCH_KEY,
+        filmData,
+        addToWatchedBtn,
+        'Added to watched'
+      );
+      checkLocalStorage(
+        movieAPI.QUEUE_KEY,
+        filmData,
+        addToQuequeBtn,
+        'Added to queque'
       );
 
       addToWatchedBtn.addEventListener('click', onAddToWatchedClick);
@@ -132,7 +142,6 @@ function onAddToWatchedClick(event) {
   event.target.disabled = true;
 
   set(movieAPI.WATCH_KEY, event.target.dataset.id);
-
 }
 
 function onAddToQuequeClick(event) {
@@ -140,4 +149,15 @@ function onAddToQuequeClick(event) {
   event.target.textContent = 'Added to queque';
   event.target.disabled = true;
   set(movieAPI.QUEUE_KEY, event.target.dataset.id);
+}
+
+function checkLocalStorage(key, filmData, btn, btnText) {
+  const locStorage = get(key);
+  const currentFilm = filmData;
+  const includesFilm = locStorage.find(film => film.id === currentFilm.id);
+  // console.log(includesFilm);
+  if (includesFilm) {
+    btn.textContent = `${btnText}`;
+    btn.disabled = true;
+  }
 }
