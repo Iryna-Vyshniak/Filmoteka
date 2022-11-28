@@ -66,8 +66,8 @@ ${overview}
 </p>
 
 <div class="lightbox-modal__buttons">
-<button type="button" class="lightbox-modal__watched-button" data-id="${stringifiedJSONFilmData}">Add to Watched</button>
-<button type="button" class="lightbox-modal__queque-button" data-id="${stringifiedJSONFilmData}">Add to queue</button>
+<button type="button" class="lightbox-modal__watched-button" data-id='${stringifiedJSONFilmData}'>Add to Watched</button>
+<button type="button" class="lightbox-modal__queque-button" data-id='${stringifiedJSONFilmData}'>Add to queue</button>
 </div>
 
 </div>`,
@@ -82,7 +82,7 @@ ${overview}
           }
         });
       },
-      onClose: instance => {},
+      onClose: instance => { },
     }
   );
   instance.show();

@@ -63,10 +63,10 @@ async function onFilmCardClick(event) {
         vote_count: data.vote_count,
         release_date: releaseYear,
       };
-      console.log(filmData);
+
 
       const stringifiedJSONFilmData = JSON.stringify(filmData);
-      console.log('stringifiedJSONFilmData', stringifiedJSONFilmData);
+
       data.genres.forEach(genre => {
         filmData.genres.push(genre.name);
       });
@@ -128,13 +128,15 @@ function getTrailer(filmId) {
 
 function onAddToWatchedClick(event) {
   event.preventDefault();
-  event.target.textContent = 'Added to watched';
-  event.target.disabled = true;
+  // event.target.textContent = 'Added to watched';
+  // event.target.disabled = true;
+
   set(movieAPI.WATCH_KEY, event.target.dataset.id);
+
 }
 
 function onAddToQuequeClick(event) {
   event.preventDefault();
-  event.target.textContent = 'Added to queque';
-  event.target.disabled = true;
+  // event.target.textContent = 'Added to queque';
+  // event.target.disabled = true;
 }
