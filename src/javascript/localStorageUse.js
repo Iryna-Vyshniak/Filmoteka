@@ -10,9 +10,21 @@ export const get = key => {
 export const set = (key, value) => {
   try {
     const locStorage = get(key);
-    locStorage.push(value);
-    console.log(locStorage);
-    localStorage.setItem(key, JSON.stringify(locStorage));
+    const currentFilm = JSON.parse(value);
+    if (locStorage.length === 0) {
+      locStorage.push(currentFilm);
+    } else {
+      const includeFilm = locStorage.find(film => {
+        film.id === currentFilm.id;
+
+      });
+      if (includeFilm !== undefined) {
+        locStorage.push(includeFilm);
+        localStorage.setItem(key, JSON.stringify(locStorage));
+      }
+    }
+
+
   } catch (error) {
     console.log('Set state error: ', error);
   }
