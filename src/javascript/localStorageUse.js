@@ -1,9 +1,7 @@
 export const get = key => {
   try {
     const serializedState = localStorage.getItem(key);
-    return serializedState === null
-      ? JSON.parse('[]')
-      : JSON.parse(serializedState);
+    return serializedState === null ? [] : JSON.parse(serializedState);
   } catch (error) {
     console.error('Get state error: ', error.message);
   }
@@ -12,10 +10,9 @@ export const get = key => {
 export const set = (key, value) => {
   try {
     const locStorage = get(key);
+    locStorage.push(value);
     console.log(locStorage);
-    const serializedState = locStorage.push(value);
-    console.log(serializedState);
-    localStorage.setItem(key, JSON.stringify(serializedState));
+    localStorage.setItem(key, JSON.stringify(locStorage));
   } catch (error) {
     console.log('Set state error: ', error);
   }
