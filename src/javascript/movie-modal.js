@@ -128,8 +128,8 @@ function getTrailer(filmId) {
 
 function onAddToWatchedClick(event) {
   event.preventDefault();
-  // event.target.textContent = 'Added to watched';
-  // event.target.disabled = true;
+  event.target.textContent = 'Added to watched';
+  event.target.disabled = true;
 
   set(movieAPI.WATCH_KEY, event.target.dataset.id);
 
@@ -137,6 +137,7 @@ function onAddToWatchedClick(event) {
 
 function onAddToQuequeClick(event) {
   event.preventDefault();
-  // event.target.textContent = 'Added to queque';
-  // event.target.disabled = true;
+  event.target.textContent = 'Added to queque';
+  event.target.disabled = true;
+  set(movieAPI.QUEUE_KEY, event.target.dataset.id);
 }
