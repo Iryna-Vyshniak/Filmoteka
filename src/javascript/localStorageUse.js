@@ -22,9 +22,15 @@ export const set = (key, value) => {
   }
 };
 
-export const remove = key => {
+export const remove = (key, id) => {
   try {
-    localStorage.removeItem(key);
+
+    const locStorage = get(key);
+
+    const restFilms = locStorage.filter(film => film.id !== id);
+
+    localStorage.setItem(key, JSON.stringify(restFilms));
+
   } catch (error) {
     console.error('Get state error: ', error.message);
   }
