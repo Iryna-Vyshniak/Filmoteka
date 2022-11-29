@@ -42,11 +42,14 @@
 
   &__link {
     text-decoration: underline;
+    cursor: pointer;
+
+    &:focus,
+    &:hover {
+      color: $accent-color;
+    }
   }
 
-  &__link:hover {
-    fill: $accent-color;
-  }
 
   &__backdrop {
     width: 100vw;
@@ -69,7 +72,7 @@
     width: calc(100% - 40px);
     height: 90vh;
 
-    border-radius: 50px;
+    border-radius: 10px;
     color: $accent-color;
     text-shadow: 1px 1px 0 rgb(255, 255, 255);
     background-color: #ebecf0;
@@ -85,6 +88,7 @@
 @keyframes heartpulse {
   0% {
     transform: scale(1);
+    fill: $accent-color;
   }
 
   10% {
@@ -95,6 +99,7 @@
 
   50% {
     transform: scale(1);
+    fill: $accent-color;
   }
 
   100% {
@@ -118,7 +123,7 @@
   outline: none;
   background: transparent;
   box-shadow: -2px -2px 5px white, 3px 3px 5px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease-in-out;
+  // transition: all 0.2s ease-in-out;
   cursor: pointer;
 
   &:hover {
@@ -155,7 +160,7 @@
   .modal__button-close:focus > &,
   .modal__button-close:hover > & {
     fill: $accent-color;
-    transition: fill 0.2s ease-in-out;
+    // transition: fill 0.2s ease-in-out;
     cursor: pointer;
   }
 }
@@ -168,11 +173,11 @@
   text-align: center;
   // text-transform: uppercase;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 3rem;
+  font-size: 2.5rem;
   letter-spacing: 10px;
   color: #e3e6ee;
   text-shadow: 1px 4px 6px #b1b4bf, 1px -2px 2px #fff;
-  animation: text 2500ms linear 1;
+  animation: text 2500ms linear alternate 2500ms;
 }
 
 @keyframes text {
