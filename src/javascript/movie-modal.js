@@ -4,7 +4,7 @@ import { createModalMarkUp } from './renderModalMarkUp';
 import { ThemoviedbAPI } from './themoviedbAPI';
 import BigPicture from 'bigpicture';
 import { set, get, remove } from './localStorageUse';
-// import { values } from 'lodash';
+
 
 const movieAPI = new ThemoviedbAPI();
 
@@ -46,7 +46,7 @@ async function onFilmCardClick(event) {
   try {
     movieAPI.fetchMovieById(filmId).then(result => {
       const data = result;
-      // console.log(data);
+
       const posterPath = data.poster_path
         ? `https://image.tmdb.org/t/p/w300${data.poster_path}`
         : `https://astoriamuseums.org/wp-content/uploads/2020/10/OFM-poster-not-available.png`;
@@ -155,7 +155,7 @@ function checkLocalStorage(key, filmData, btn, btnText) {
   const locStorage = get(key);
   const currentFilm = filmData;
   const includesFilm = locStorage.find(film => film.id === currentFilm.id);
-  // console.log(includesFilm);
+
   if (includesFilm) {
     btn.textContent = `${btnText}`;
     btn.disabled = true;

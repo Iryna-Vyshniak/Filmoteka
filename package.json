@@ -23,6 +23,7 @@
     "bigpicture": "^2.6.2",
     "lodash.debounce": "^4.0.8",
     "modern-normalize": "^1.1.0",
+    "notiflix": "^3.2.5",
     "simplelightbox": "^2.11.0",
     "tui-pagination": "^3.4.1"
   },
