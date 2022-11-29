@@ -135,8 +135,7 @@
   }
 
   &:active {
-    box-shadow: inset -1px -1px 3px white,
-      inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: inset -1px -1px 3px white, inset 1px 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   &:hover ~ .modal__cross {
@@ -159,10 +158,7 @@
     transition: fill 0.2s ease-in-out;
     cursor: pointer;
   }
-
 }
-
-
 
 // MODAL-TEAM
 
@@ -177,9 +173,7 @@
   color: #e3e6ee;
   text-shadow: 1px 4px 6px #b1b4bf, 1px -2px 2px #fff;
   animation: text 2500ms linear 1;
-
 }
-
 
 @keyframes text {
   0% {
@@ -197,7 +191,6 @@
     margin-bottom: 10px;
   }
 }
-
 
 .team__list {
   width: 100%;
@@ -236,10 +229,9 @@
       margin-bottom: 0px;
     }
 
-    &:nth-last-child(-n+2) {
+    &:nth-last-child(-n + 2) {
       margin-bottom: 0;
     }
-
   }
 
   @include desktop {
@@ -251,13 +243,12 @@
       margin-right: 0;
     }
 
-
     &:last-child {
       margin-right: auto;
       margin-bottom: 0px;
     }
 
-    &:nth-last-child(-n+4) {
+    &:nth-last-child(-n + 4) {
       margin-bottom: 0;
     }
   }
@@ -279,7 +270,6 @@
   align-items: center;
 }
 
-
 .sns-list {
   margin-right: 20px;
   margin-left: auto;
@@ -289,7 +279,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
 
   margin-bottom: 10px;
   border: none;
@@ -319,8 +308,7 @@
   }
 
   &:active {
-    box-shadow: inset -1px -1px 3px white,
-      inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: inset -1px -1px 3px white, inset 1px 1px 3px rgba(0, 0, 0, 0.1);
   }
 
   &:hover > .sns-list__icon {
@@ -399,9 +387,12 @@
   text-shadow: 0.5px 0.5px 1px rgb(255, 255, 255);
 }
 
-
 .team__student-about {
   margin-bottom: 0;
   color: #9095a8;
   text-shadow: 1px 1px 1px #fff;
+}
+
+.noScroll {
+  overflow: hidden;
 }

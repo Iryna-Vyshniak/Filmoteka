@@ -1,4 +1,3 @@
-import BigPicture from 'bigpicture';
 import Pagination from 'tui-pagination';
 import 'tui-pagination/dist/tui-pagination.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
@@ -11,10 +10,10 @@ import { spinnerPlay, spinnerStop } from './javascript/spiner';
 import { callfooterModal } from './javascript/footerModal';
 import { scrollFunction } from './javascript/scroll';
 import { renderGenres } from './javascript/renderGenres';
-import './javascript/movie-modal';
+import { paginOptions } from './javascript/paginOptions';
 
 export const themoviedbAPI = new ThemoviedbAPI();
-const pagination = new Pagination(refs.paginationContainer, refs.paginOptions);
+const pagination = new Pagination(refs.paginationContainer, paginOptions);
 const page = pagination.getCurrentPage();
 export let allProducts = null;
 
@@ -45,7 +44,7 @@ async function startPage() {
     })
     .join('');
   refs.gallery.innerHTML = markup;
-  allProducts = [...getItems()];
+  allProducts = [...getItems(refs.gallery)];
 }
 
 async function onSearchFormSubmit(event) {
@@ -66,13 +65,10 @@ async function onSearchFormSubmit(event) {
     pagination.reset(searchMovies.total_results);
 
     refs.gallery.innerHTML = markup;
-    allProducts = [...getItems()];
+    allProducts = [...getItems(refs.gallery)];
 
-    if (totalMovies === 0) {
-      refs.paginationContainer.style.display = 'none';
-    } else {
-      refs.paginationContainer.style.display = 'block';
-    }
+    refs.paginationContainer.style.display = (searchMovies.total_results === 0) ? 'none' : 'block';
+
   } catch (err) {
     console.log(err);
   } finally {
@@ -81,12 +77,11 @@ async function onSearchFormSubmit(event) {
   event.target.reset();
 };
 
-//  -------------------  PAGINATION  --------------------
-
 async function loadMoreFavouritesMovies(event) {
 
   const currentPage = event.page;
   try {
+
     spinnerPlay()
     const genresIds = await themoviedbAPI.fetchGenres();
     const trendMovies = await themoviedbAPI.fetchFavouritesMovies(currentPage);
@@ -98,7 +93,7 @@ async function loadMoreFavouritesMovies(event) {
       })
       .join('');
     refs.gallery.innerHTML = markup;
-    allProducts = [...getItems()];
+    allProducts = [...getItems(refs.gallery)];
   } catch (error) {
     console.log(error);
   } finally {
@@ -116,7 +111,7 @@ async function loadMoreMoviesByQuery(event) {
       return renderMarkup(movie, genres);
     }).join('');
     refs.gallery.innerHTML = markup;
-    allProducts = [...getItems()];
+    allProducts = [...getItems(refs.gallery)];
   } catch (error) {
     console.log(error);
   } finally {

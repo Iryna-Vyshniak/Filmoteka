@@ -4,17 +4,15 @@ axios.defaults.baseURL = 'https://api.themoviedb.org/3';
 
 export class ThemoviedbAPI {
   #API_KEY = '663bd5fd8d905b7ce2d57e9867d3492e';
-  #page = 1;
-  #perPage = 20;
-  #totalMovies = 0;
-  #query = '';
+  totalMovies = 0;
+  query = '';
   genres = [];
 
   constructor() {
     this.WATCH_KEY = 'Watched';
     this.QUEUE_KEY = 'Queue';
   }
-  async fetchFavouritesMovies(page = 1) {
+  async fetchFavouritesMovies(page) {
     const params = new URLSearchParams({
       api_key: this.#API_KEY,
       page: page,
@@ -24,10 +22,10 @@ export class ThemoviedbAPI {
     return data;
   }
 
-  async fetchMoviesByQuery(page = 1) {
+  async fetchMoviesByQuery(page) {
     const params = new URLSearchParams({
       api_key: this.#API_KEY,
-      query: this.#query,
+      query: this.query,
       page: page,
     });
 
@@ -71,29 +69,5 @@ export class ThemoviedbAPI {
     this.genres = allGenres.data.genres;
 
     return allGenres;
-  }
-
-  get query() {
-    return this.#query;
-  }
-
-  set query(newQuery) {
-    this.#query = newQuery;
-  }
-
-  incrementPage() {
-    this.#page += 1;
-  }
-
-  resetPage() {
-    this.#page = 1;
-  }
-
-  setTotal(totalMovies) {
-    this.#totalMovies = totalMovies;
-  }
-
-  hasMorePages() {
-    return this.#page < Math.ceil(this.#totalMovies / this.#perPage);
   }
 }

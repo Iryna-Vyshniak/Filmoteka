@@ -4,12 +4,13 @@ import { createModalMarkUp } from './renderModalMarkUp';
 import { ThemoviedbAPI } from './themoviedbAPI';
 import BigPicture from 'bigpicture';
 import { set, get, remove } from './localStorageUse';
+import { spinnerPlay, spinnerStop } from './spiner'
 
 
 const movieAPI = new ThemoviedbAPI();
 
-export function getItems() {
-  const lightboxedCard = refs.gallery.childNodes;
+export function getItems(parent) {
+  const lightboxedCard = parent.childNodes;
   const allProducts = [...lightboxedCard];
   lightboxedCard.forEach(item => item.addEventListener('click', openLightbox));
   return allProducts;
@@ -44,6 +45,7 @@ async function onFilmCardClick(event) {
 
   const filmId = selectedProduct.dataset.id;
   try {
+    spinnerPlay();
     movieAPI.fetchMovieById(filmId).then(result => {
       const data = result;
 
@@ -101,6 +103,8 @@ async function onFilmCardClick(event) {
     er => {
       console.log(er);
     };
+  } finally {
+    spinnerStop();
   }
 }
 
