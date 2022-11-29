@@ -2,26 +2,27 @@ import { refs } from './refs';
 
 export function callfooterModal() {
     refs.footerBackDrop.classList.remove('is-hidden');
+    document.querySelector("body").classList.add('noScroll');
     document.addEventListener('keydown', hideFooterModal);
-    refs.footerBackDrop.addEventListener("click", hideFooterModal)
-    refs.footerCloseBtn.addEventListener("click", footerCloseBtnOnClick
-    )
+    refs.footerBackDrop.addEventListener("click", hideFooterModal);
+    refs.footerCloseBtn.addEventListener("click", footerCloseBtnOnClick)
 }
 
 function footerCloseBtnOnClick() {
-    refs.footerBackDrop.classList.add('is-hidden')
-    removeListeners()
+    refs.footerBackDrop.classList.add('is-hidden');
+    removeListeners();
 }
 
 function hideFooterModal(e) {
     if (e.key === 'Escape' || e.target === refs.footerBackDrop) {
         refs.footerBackDrop.classList.add('is-hidden');
-        removeListeners()
+        removeListeners();
     }
 }
 
 function removeListeners() {
-    document.removeEventListener('keydown', hideFooterModal)
-    refs.footerBackDrop.removeEventListener("click", hideFooterModal)
-    refs.footerCloseBtn.removeEventListener("click", footerCloseBtnOnClick)
+    document.removeEventListener('keydown', hideFooterModal);
+    refs.footerBackDrop.removeEventListener("click", hideFooterModal);
+    refs.footerCloseBtn.removeEventListener("click", footerCloseBtnOnClick);
+    document.querySelector("body").classList.add('noScroll');
 }
