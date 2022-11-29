@@ -13,8 +13,6 @@ import { get, remove } from './localStorageUse';
 import { paginOptions } from './paginOptions';
 
 const themoviedbAPI = new ThemoviedbAPI();
-const pagination = new Pagination(libRefs.paginationContainer, paginOptions);
-const page = pagination.getCurrentPage();
 
 try {
     spinnerPlay();
