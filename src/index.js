@@ -20,7 +20,7 @@ export let allProducts = null;
 try {
   spinnerPlay();
   startPage();
-  refs.footerLink.addEventListener("click", callfooterModal);
+  refs.footerLink.addEventListener('click', callfooterModal);
   window.addEventListener('scroll', scrollFunction);
 } catch (error) {
   console.log(error);
@@ -39,7 +39,7 @@ async function startPage() {
 
   const markup = trendMovies.results
     .map(movie => {
-      const genres = renderGenres(movie)
+      const genres = renderGenres(movie);
       return renderMarkup(movie, genres);
     })
     .join('');
@@ -52,12 +52,14 @@ async function onSearchFormSubmit(event) {
   themoviedbAPI.query = event.target.elements.search.value;
 
   try {
-    spinnerPlay()
+    spinnerPlay();
     const searchMovies = await themoviedbAPI.fetchMoviesByQuery(page);
-    const markup = searchMovies.results.map(movie => {
-      const genres = renderGenres(movie)
-      return renderMarkup(movie, genres);
-    }).join('');
+    const markup = searchMovies.results
+      .map(movie => {
+        const genres = renderGenres(movie);
+        return renderMarkup(movie, genres);
+      })
+      .join('');
 
     pagination.off('beforeMove', loadMoreFavouritesMovies);
     pagination.off('beforeMove', loadMoreMoviesByQuery);
@@ -67,28 +69,26 @@ async function onSearchFormSubmit(event) {
     refs.gallery.innerHTML = markup;
     allProducts = [...getItems(refs.gallery)];
 
-    refs.paginationContainer.style.display = (searchMovies.total_results === 0) ? 'none' : 'block';
-
+    refs.paginationContainer.style.display =
+      searchMovies.total_results === 0 ? 'none' : 'block';
   } catch (err) {
     console.log(err);
   } finally {
-    spinnerStop()
+    spinnerStop();
   }
   event.target.reset();
-};
+}
 
 async function loadMoreFavouritesMovies(event) {
-
   const currentPage = event.page;
   try {
-
-    spinnerPlay()
+    spinnerPlay();
     const genresIds = await themoviedbAPI.fetchGenres();
     const trendMovies = await themoviedbAPI.fetchFavouritesMovies(currentPage);
 
     const markup = trendMovies.results
       .map(movie => {
-        const genres = renderGenres(movie)
+        const genres = renderGenres(movie);
         return renderMarkup(movie, genres);
       })
       .join('');
@@ -99,17 +99,19 @@ async function loadMoreFavouritesMovies(event) {
   } finally {
     spinnerStop();
   }
-};
+}
 
 async function loadMoreMoviesByQuery(event) {
   const currentPage = event.page;
   try {
     spinnerPlay();
     const searchMovies = await themoviedbAPI.fetchMoviesByQuery(currentPage);
-    const markup = searchMovies.results.map(movie => {
-      const genres = renderGenres(movie)
-      return renderMarkup(movie, genres);
-    }).join('');
+    const markup = searchMovies.results
+      .map(movie => {
+        const genres = renderGenres(movie);
+        return renderMarkup(movie, genres);
+      })
+      .join('');
     refs.gallery.innerHTML = markup;
     allProducts = [...getItems(refs.gallery)];
   } catch (error) {
@@ -117,83 +119,43 @@ async function loadMoreMoviesByQuery(event) {
   } finally {
     spinnerStop();
   }
+}
+
+const Theme = {
+  LIGHT: 'light-theme',
+  DARK: 'dark-theme',
 };
 
-//THEME
+const STORAGE_KEY = 'themeKey';
 
-// const Theme = {
-//   LIGHT: 'light-theme',
-//   DARK: 'dark-theme',
-// };
+const checkBox = document.querySelector('.theme-switch__toggle');
+const body = document.querySelector('body');
 
-// const THEME_STORAGE_KEY = 'theme';
-// const inputRef = document.querySelector('.theme-switch__toggle');
+checkBox.addEventListener('change', onChange);
+isTheme();
 
-// const load = key => {
-//   try {
-//     const serializedState = localStorage.getItem(key);
-//     return serializedState === null ? undefined : JSON.parse(serializedState);
-//   } catch (error) {
-//     console.error('Get state error: ', error.message);
-//   }
-// };
+function onChange(e) {
+  if (e.target.checked) {
+    body.classList.remove('ligth-theme');
+    body.classList.add('dark-theme');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(Theme.DARK));
+  } else {
+    body.classList.remove('dark-theme');
+    body.classList.add('ligth-theme');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(Theme.LIGHT));
+  }
+}
 
-// const save = (key, value) => {
-//   try {
-//     const serializedState = JSON.stringify(value);
-//     localStorage.setItem(key, serializedState);
-//   } catch (error) {
-//     console.error('Set state error: ', error.message);
-//   }
-// };
-
-// const initPage = () => {
-//   const savedChecked = load(THEME_STORAGE_KEY);
-//   inputRef.checked = savedChecked;
-//   document.body.className = savedChecked ? Theme.DARK : Theme.LIGHT;
-// };
-
-// initPage();
-
-// const onThemeSwitch = event => {
-//   const { checked } = event.target;
-
-//   document.body.className = checked ? Theme.DARK : Theme.LIGHT;
-//   save(THEME_STORAGE_KEY, checked);
-// };
-
-// inputRef.addEventListener('change', onThemeSwitch);
-
-
-
-// EMPTY GALLERY
-// const main = document.querySelector('.main-container--gallery');
-
-// export default function getWatched() {
-//   const fromLSWatched = localStorage.getItem('watched');
-
-//   // clearMain();
-//   if (fromLSWatched === '[]' || fromLS === null) {
-//     clearMain();
-//     main?.classList.add('.perspective');
-//     return refs.main.insertAdjacentHTML(
-//       'afterbegin',
-//       `<h1 class="js-title-queue preserve">Your list is empty...</h1>
-//       <img src="./images/movie.png" alt="cinema" />
-//       <div class="cloak__wrapper preserve">
-//         <div class="cloak__container preserve">
-//           <div class="cloak preserve"></div>
-//         </div>
-//       </div>`
-//     );
-//   }
-//   main?.classList.remove('.perspective');
-//   // clearMain();
-//   const arrayFilms = JSON.parse(fromLSWatched);
-//   arrayFilms.reverse();
-//   renderMarkup(arrayFilms);
-// }
-
-// function clearMain() {
-//   main.innerHTML = ' ';
-// }
+function isTheme() {
+  const saveTheme = localStorage.getItem(STORAGE_KEY);
+  if (!saveTheme) {
+    body.classList.add('ligth-theme');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(Theme.LIGHT));
+  } else {
+    const parseTheme = JSON.parse(saveTheme);
+    if (parseTheme === 'dark-theme') {
+      body.classList.add('dark-theme');
+      checkBox.checked = true;
+    }
+  }
+}
