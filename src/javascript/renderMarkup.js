@@ -1,9 +1,11 @@
 export function renderMarkup(data, genres) {
+
   const {
     id,
     genre_ids,
     poster_path,
     original_title,
+    title,
     release_date,
     vote_average,
   } = data;
@@ -16,11 +18,11 @@ export function renderMarkup(data, genres) {
                   <div class="movie-card__poster-thumb">
                     <img src="${posterPath}"
                         class="movie-card__poster"
-                        alt="${original_title}"
+                        alt="${title}"
                                             />
                   </div>
                   <div class="movie-card__wrap">
-                      <h2 class="movie-info-title"> ${original_title}</h2>
+                      <h2 class="movie-info-title"> ${title}</h2>
                       <div class="movie-info-list">
                       <p class="info-item-genre">${genres}</p>
                         <span class="info-item-slash"> | </span>

@@ -1,90 +1,128 @@
-import debounce from 'lodash.debounce';
-import SimpleLightbox from 'simplelightbox';
+import BigPicture from 'bigpicture';
+import Pagination from 'tui-pagination';
+import 'tui-pagination/dist/tui-pagination.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-import { set, get, remove, clear } from './javascript/localStorageUse';
 import { refs } from './javascript/refs';
 import { renderMarkup } from './javascript/renderMarkup';
 import { ThemoviedbAPI } from './javascript/themoviedbAPI';
-
 import { getItems } from './javascript/movie-modal';
-import BigPicture from 'bigpicture';
+import { spinnerPlay, spinnerStop } from './javascript/spiner';
+import { callfooterModal } from './javascript/footerModal';
+import { scrollFunction } from './javascript/scroll';
+import { renderGenres } from './javascript/renderGenres';
 import './javascript/movie-modal';
-import './javascript/footerModal';
 
-const themoviedbAPI = new ThemoviedbAPI();
+export const themoviedbAPI = new ThemoviedbAPI();
+const pagination = new Pagination(refs.paginationContainer, refs.paginOptions);
+const page = pagination.getCurrentPage();
+export let allProducts = null;
 
 try {
+  spinnerPlay();
   startPage();
+  refs.footerLink.addEventListener("click", callfooterModal);
+  window.addEventListener('scroll', scrollFunction);
 } catch (error) {
   console.log(error);
+} finally {
+  spinnerStop();
 }
 
-export let allProducts = null;
+refs.formEl.addEventListener('submit', onSearchFormSubmit);
+pagination.on('beforeMove', loadMoreFavouritesMovies);
 
 async function startPage() {
   const genresIds = await themoviedbAPI.fetchGenres();
-  const trendMovies = await themoviedbAPI.fetchFavouritesMovies();
+  const trendMovies = await themoviedbAPI.fetchFavouritesMovies(page);
+
+  pagination.reset(trendMovies.total_results);
 
   const markup = trendMovies.results
     .map(movie => {
-      const genresName = [];
-
-      movie.genre_ids.forEach(genre => {
-        themoviedbAPI.genres.forEach(item => {
-          if (item.id === genre) {
-            genresName.push(item.name);
-          }
-        });
-      });
-      if (genresName.length > 2) {
-        genresName.splice(2, genresName.length - 1, 'Other');
-      }
-      return renderMarkup(movie, genresName.join(', '));
+      const genres = renderGenres(movie)
+      return renderMarkup(movie, genres);
     })
     .join('');
   refs.gallery.innerHTML = markup;
   allProducts = [...getItems()];
 }
 
-//  HEADER
-
-const onSearchFormSubmit = async event => {
+async function onSearchFormSubmit(event) {
   event.preventDefault();
   themoviedbAPI.query = event.target.elements.search.value;
 
   try {
-    const searchMovies = await themoviedbAPI.fetchMoviesByQuery();
-    const markup = searchMovies.results.map(renderMarkup).join('');
+    spinnerPlay()
+    const searchMovies = await themoviedbAPI.fetchMoviesByQuery(page);
+    const markup = searchMovies.results.map(movie => {
+      const genres = renderGenres(movie)
+      return renderMarkup(movie, genres);
+    }).join('');
+
+    pagination.off('beforeMove', loadMoreFavouritesMovies);
+    pagination.off('beforeMove', loadMoreMoviesByQuery);
+    pagination.on('beforeMove', loadMoreMoviesByQuery);
+    pagination.reset(searchMovies.total_results);
+
     refs.gallery.innerHTML = markup;
     allProducts = [...getItems()];
+
+    if (totalMovies === 0) {
+      refs.paginationContainer.style.display = 'none';
+    } else {
+      refs.paginationContainer.style.display = 'block';
+    }
   } catch (err) {
     console.log(err);
+  } finally {
+    spinnerStop()
   }
   event.target.reset();
 };
 
-refs.formEl.addEventListener('submit', onSearchFormSubmit);
+//  -------------------  PAGINATION  --------------------
 
-// SPINNER
+async function loadMoreFavouritesMovies(event) {
 
-// function spinnerPlay() {
-//   document.querySelector('body').classList.add('loading');
-// }
+  const currentPage = event.page;
+  try {
+    spinnerPlay()
+    const genresIds = await themoviedbAPI.fetchGenres();
+    const trendMovies = await themoviedbAPI.fetchFavouritesMovies(currentPage);
 
-// function spinnerStop() {
-//   window.setTimeout(function () {
-//     document.querySelector('body').classList.remove('loading');
-//     document.querySelector('body').classList.add('loaded');
-//   }, 1500);
-// }
+    const markup = trendMovies.results
+      .map(movie => {
+        const genres = renderGenres(movie)
+        return renderMarkup(movie, genres);
+      })
+      .join('');
+    refs.gallery.innerHTML = markup;
+    allProducts = [...getItems()];
+  } catch (error) {
+    console.log(error);
+  } finally {
+    spinnerStop();
+  }
+};
 
-// spinnerPlay();
-
-// window.addEventListener('load', () => {
-//   console.log('All resources finished loading!');
-
-//   spinnerStop();
-// });
+async function loadMoreMoviesByQuery(event) {
+  const currentPage = event.page;
+  try {
+    spinnerPlay();
+    const searchMovies = await themoviedbAPI.fetchMoviesByQuery(currentPage);
+    const markup = searchMovies.results.map(movie => {
+      const genres = renderGenres(movie)
+      return renderMarkup(movie, genres);
+    }).join('');
+    refs.gallery.innerHTML = markup;
+    allProducts = [...getItems()];
+  } catch (error) {
+    console.log(error);
+  } finally {
+    spinnerStop();
+  }
+};
 
 //THEME
 
@@ -131,65 +169,36 @@ refs.formEl.addEventListener('submit', onSearchFormSubmit);
 
 // inputRef.addEventListener('change', onThemeSwitch);
 
-// // SCROLL
 
-// const btnUp = document.getElementById('to-top-btn');
-// const btnUpWrapper = document.querySelector('.btn-up');
-
-// function scrollPage() {
-//   const { height: cardHeight } = document
-//     .querySelector('.gallery')
-//     .firstElementChild.getBoundingClientRect();
-
-//   window.scrollBy({
-//     top: cardHeight * 2,
-//     behavior: 'smooth',
-//   });
-// }
-
-// window.addEventListener('scroll', () => {
-//   scrollFunction();
-// });
-
-// function scrollFunction() {
-//   if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
-//     btnUpWrapper.style.display = 'flex';
-//   } else {
-//     btnUpWrapper.style.display = 'none';
-//   }
-// }
-// btnUp.addEventListener('click', () => {
-//   window.scrollTo({ top: 0, behavior: 'smooth' });
-// });
 
 // EMPTY GALLERY
-const main = document.querySelector('.main-container--gallery');
+// const main = document.querySelector('.main-container--gallery');
 
-export default function getWatched() {
-  const fromLSWatched = localStorage.getItem('watched');
+// export default function getWatched() {
+//   const fromLSWatched = localStorage.getItem('watched');
 
-  // clearMain();
-  if (fromLSWatched === '[]' || fromLS === null) {
-    clearMain();
-    main?.classList.add('.perspective');
-    return refs.main.insertAdjacentHTML(
-      'afterbegin',
-      `<h1 class="js-title-queue preserve">Your list is empty...</h1>
-      <img src="./images/movie.png" alt="cinema" />
-      <div class="cloak__wrapper preserve">
-        <div class="cloak__container preserve">
-          <div class="cloak preserve"></div>
-        </div>
-      </div>`
-    );
-  }
-  main?.classList.remove('.perspective');
-  // clearMain();
-  const arrayFilms = JSON.parse(fromLSWatched);
-  arrayFilms.reverse();
-  renderMarkup(arrayFilms);
-}
+//   // clearMain();
+//   if (fromLSWatched === '[]' || fromLS === null) {
+//     clearMain();
+//     main?.classList.add('.perspective');
+//     return refs.main.insertAdjacentHTML(
+//       'afterbegin',
+//       `<h1 class="js-title-queue preserve">Your list is empty...</h1>
+//       <img src="./images/movie.png" alt="cinema" />
+//       <div class="cloak__wrapper preserve">
+//         <div class="cloak__container preserve">
+//           <div class="cloak preserve"></div>
+//         </div>
+//       </div>`
+//     );
+//   }
+//   main?.classList.remove('.perspective');
+//   // clearMain();
+//   const arrayFilms = JSON.parse(fromLSWatched);
+//   arrayFilms.reverse();
+//   renderMarkup(arrayFilms);
+// }
 
-function clearMain() {
-  main.innerHTML = ' ';
-}
+// function clearMain() {
+//   main.innerHTML = ' ';
+// }

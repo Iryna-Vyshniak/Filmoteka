@@ -14,20 +14,21 @@ export class ThemoviedbAPI {
     this.WATCH_KEY = 'Watched';
     this.QUEUE_KEY = 'Queue';
   }
-  async fetchFavouritesMovies() {
+  async fetchFavouritesMovies(page = 1) {
     const params = new URLSearchParams({
       api_key: this.#API_KEY,
+      page: page,
     });
 
     const { data } = await axios.get('/trending/movie/week', { params });
     return data;
   }
 
-  async fetchMoviesByQuery() {
+  async fetchMoviesByQuery(page = 1) {
     const params = new URLSearchParams({
       api_key: this.#API_KEY,
       query: this.#query,
-      page: this.#page,
+      page: page,
     });
 
     const { data } = await axios.get('/search/movie', { params });
