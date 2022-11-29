@@ -1,31 +1,21 @@
-<div class="toolbar">
-  <div class="theme-switch">
-    <div class="theme-switch__control">
-      <input
-        class="theme-switch__toggle"
-        type="checkbox"
-        name="theme"
-        id="theme-switch-toggle"
-        aria-label="switch theme"
-      />
-      <label
-        aria-hidden="true"
-        class="theme-switch__track"
-        for="theme-switch-toggle"
-      >
-      </label>
-      <div aria-hidden="true" class="theme-switch__marker"></div>
-    </div>
-  </div>
-</div>
 <main id="main" class="main main-container main-container--gallery">
-  <!-- EMPTY LIST -->
-  <!-- here will be example background, when our movies don`t show -->
+  <!-- коли стоїть "заглушка", на main додаємо клас perspective  -->
 
   <section class="section gallery-section library js-gallery-section">
     <h2 class="visually-hidden">Gallery with movies</h2>
     <div class="container library-container js-container">
-      <ul class="gallery gallery--library"></ul>
+      <ul class="gallery gallery--library">
+        <!-- заглушка - додаємо .visually-hidden (в стилях прописаний), коли рендерим розмітку карток -->
+        <li class="empty-bg">
+          <h2 class="js-title-queue preserve">Your list is empty...</h2>
+          <img src="./images/movie.png" alt="cinema" />
+          <div class="cloak__wrapper preserve">
+            <div class="cloak__container preserve">
+              <div class="cloak preserve"></div>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </section>
 
