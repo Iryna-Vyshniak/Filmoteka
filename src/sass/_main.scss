@@ -1,10 +1,12 @@
 main {
+  height: fit-content;
   padding-bottom: 40px;
 
   @media screen and (min-width: $tablet) {
     padding-bottom: 60px;
   }
 }
+
 // MOVIE CARDS
 
 .gallery-section {
@@ -14,6 +16,10 @@ main {
   @media screen and (min-width: $tablet) {
     padding-top: 60px;
     padding-bottom: 60px;
+  }
+
+  &--hidden {
+    padding-bottom: 0;
   }
 }
 
@@ -651,4 +657,66 @@ body.dark-theme {
 .tui-pagination {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+}
+
+.result-container {
+  position: relative;
+}
+
+.no-result-title {
+  position: relative;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  color: $secondary-text-color;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1rem;
+  overflow: hidden;
+  background: linear-gradient(
+    290deg,
+    rgb(81, 28, 0),
+    rgb(238, 238, 238),
+    rgb(255, 98, 0)
+  );
+  background-repeat: no-repeat;
+  background-size: 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0);
+
+  animation: swing 2s infinite alternate ease-in-out;
+  transform: translate3d(0, 0, 0vmin);
+
+  @include mobile {
+    margin-top: 40px;
+  }
+
+  @include tablet {
+    font-size: 35px;
+  }
+
+  @include desktop {
+    font-size: 50px;
+  }
+
+  &:after {
+    animation: swing 2s infinite alternate ease-in-out;
+    content: 'Your list is empty...';
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgb(0, 0, 0);
+    filter: blur(1.2vmin);
+    transform: scale(1.5) translate3d(0, 12%, -10vmin)
+      translate(
+        calc((var(--swing-x, 0) * 0.05) * 1%),
+        calc((var(--swing-y) * 0.05) * 1%)
+      );
+  }
+}
+
+.no-result-image {
+  width: 50%;
+  height: 30%;
+  transform: translateY(-10%);
 }
