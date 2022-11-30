@@ -163,10 +163,6 @@ async function onMovieCardClick(event) {
         }
       }
     });
-
-    // removeFromWatchedBtn.textContent = 'Remove from Watched';
-
-    // removeFromQuequeBtn.textContent = 'Remove from Queque';
   } catch (error) {
     console.log(error);
   } finally {
