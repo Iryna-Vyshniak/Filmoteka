@@ -1,6 +1,6 @@
 import { refs } from './refs';
 
-function scrollPage() {
+export function scrollPage() {
     const { height: cardHeight } = document
         .querySelector('.gallery')
         .firstElementChild.getBoundingClientRect();

@@ -1,6 +1,3 @@
-import 'tui-pagination/dist/tui-pagination.css';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 export const paginOptions = {
     totalItems: 0,
     itemsPerPage: 20,
@@ -9,6 +6,7 @@ export const paginOptions = {
     centerAlign: true,
     firstItemClassName: 'tui-first-child',
     lastItemClassName: 'tui-last-child',
+    usageStatistics: false,
     template: {
         page: '<a href="#" class="tui-page-btn">{{page}}</a>',
         currentPage:

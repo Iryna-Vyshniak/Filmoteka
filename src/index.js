@@ -8,11 +8,11 @@ import { ThemoviedbAPI } from './javascript/themoviedbAPI';
 import { getItems } from './javascript/movie-modal';
 import { spinnerPlay, spinnerStop } from './javascript/spiner';
 import { callfooterModal } from './javascript/footerModal';
-import { scrollFunction } from './javascript/scroll';
+import { scrollPage, scrollFunction } from './javascript/scroll';
 import { renderGenres } from './javascript/renderGenres';
 import { paginOptions } from './javascript/paginOptions';
 
-export const themoviedbAPI = new ThemoviedbAPI();
+const themoviedbAPI = new ThemoviedbAPI();
 const pagination = new Pagination(refs.paginationContainer, paginOptions);
 const page = pagination.getCurrentPage();
 export let allProducts = null;
@@ -39,12 +39,13 @@ async function startPage() {
 
   const markup = trendMovies.results
     .map(movie => {
-      const genres = renderGenres(movie);
+      const genres = renderGenres(movie, [...themoviedbAPI.genres])
       return renderMarkup(movie, genres);
     })
     .join('');
   refs.gallery.innerHTML = markup;
   allProducts = [...getItems(refs.gallery)];
+
 }
 
 async function onSearchFormSubmit(event) {
@@ -54,12 +55,10 @@ async function onSearchFormSubmit(event) {
   try {
     spinnerPlay();
     const searchMovies = await themoviedbAPI.fetchMoviesByQuery(page);
-    const markup = searchMovies.results
-      .map(movie => {
-        const genres = renderGenres(movie);
-        return renderMarkup(movie, genres);
-      })
-      .join('');
+    const markup = searchMovies.results.map(movie => {
+      const genres = renderGenres(movie, [...themoviedbAPI.genres])
+      return renderMarkup(movie, genres);
+    }).join('');
 
     pagination.off('beforeMove', loadMoreFavouritesMovies);
     pagination.off('beforeMove', loadMoreMoviesByQuery);
@@ -88,12 +87,13 @@ async function loadMoreFavouritesMovies(event) {
 
     const markup = trendMovies.results
       .map(movie => {
-        const genres = renderGenres(movie);
+        const genres = renderGenres(movie, [...themoviedbAPI.genres])
         return renderMarkup(movie, genres);
       })
       .join('');
     refs.gallery.innerHTML = markup;
     allProducts = [...getItems(refs.gallery)];
+
   } catch (error) {
     console.log(error);
   } finally {
@@ -106,14 +106,13 @@ async function loadMoreMoviesByQuery(event) {
   try {
     spinnerPlay();
     const searchMovies = await themoviedbAPI.fetchMoviesByQuery(currentPage);
-    const markup = searchMovies.results
-      .map(movie => {
-        const genres = renderGenres(movie);
-        return renderMarkup(movie, genres);
-      })
-      .join('');
+    const markup = searchMovies.results.map(movie => {
+      const genres = renderGenres(movie, [...themoviedbAPI.genres])
+      return renderMarkup(movie, genres);
+    }).join('');
     refs.gallery.innerHTML = markup;
     allProducts = [...getItems(refs.gallery)];
+
   } catch (error) {
     console.log(error);
   } finally {
@@ -126,36 +125,81 @@ const Theme = {
   DARK: 'dark-theme',
 };
 
-const STORAGE_KEY = 'themeKey';
+//THEME
 
-const checkBox = document.querySelector('.theme-switch__toggle');
-const body = document.querySelector('body');
+// const Theme = {
+//   LIGHT: 'light-theme',
+//   DARK: 'dark-theme',
+// };
 
-checkBox.addEventListener('change', onChange);
-isTheme();
+// const THEME_STORAGE_KEY = 'theme';
+// const inputRef = document.querySelector('.theme-switch__toggle');
 
-function onChange(e) {
-  if (e.target.checked) {
-    body.classList.remove('ligth-theme');
-    body.classList.add('dark-theme');
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(Theme.DARK));
-  } else {
-    body.classList.remove('dark-theme');
-    body.classList.add('ligth-theme');
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(Theme.LIGHT));
-  }
-}
+// const load = key => {
+//   try {
+//     const serializedState = localStorage.getItem(key);
+//     return serializedState === null ? undefined : JSON.parse(serializedState);
+//   } catch (error) {
+//     console.error('Get state error: ', error.message);
+//   }
+// };
 
-function isTheme() {
-  const saveTheme = localStorage.getItem(STORAGE_KEY);
-  if (!saveTheme) {
-    body.classList.add('ligth-theme');
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(Theme.LIGHT));
-  } else {
-    const parseTheme = JSON.parse(saveTheme);
-    if (parseTheme === 'dark-theme') {
-      body.classList.add('dark-theme');
-      checkBox.checked = true;
-    }
-  }
-}
+// const save = (key, value) => {
+//   try {
+//     const serializedState = JSON.stringify(value);
+//     localStorage.setItem(key, serializedState);
+//   } catch (error) {
+//     console.error('Set state error: ', error.message);
+//   }
+// };
+
+// const initPage = () => {
+//   const savedChecked = load(THEME_STORAGE_KEY);
+//   inputRef.checked = savedChecked;
+//   document.body.className = savedChecked ? Theme.DARK : Theme.LIGHT;
+// };
+
+// initPage();
+
+// const onThemeSwitch = event => {
+//   const { checked } = event.target;
+
+//   document.body.className = checked ? Theme.DARK : Theme.LIGHT;
+//   save(THEME_STORAGE_KEY, checked);
+// };
+
+// inputRef.addEventListener('change', onThemeSwitch);
+
+
+
+// EMPTY GALLERY
+// const main = document.querySelector('.main-container--gallery');
+
+// export default function getWatched() {
+//   const fromLSWatched = localStorage.getItem('watched');
+
+//   // clearMain();
+//   if (fromLSWatched === '[]' || fromLS === null) {
+//     clearMain();
+//     main?.classList.add('.perspective');
+//     return refs.main.insertAdjacentHTML(
+//       'afterbegin',
+//       `<h1 class="js-title-queue preserve">Your list is empty...</h1>
+//       <img src="./images/movie.png" alt="cinema" />
+//       <div class="cloak__wrapper preserve">
+//         <div class="cloak__container preserve">
+//           <div class="cloak preserve"></div>
+//         </div>
+//       </div>`
+//     );
+//   }
+//   main?.classList.remove('.perspective');
+//   // clearMain();
+//   const arrayFilms = JSON.parse(fromLSWatched);
+//   arrayFilms.reverse();
+//   renderMarkup(arrayFilms);
+// }
+
+// function clearMain() {
+//   main.innerHTML = ' ';
+// }

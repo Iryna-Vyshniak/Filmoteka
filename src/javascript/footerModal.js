@@ -24,5 +24,5 @@ function removeListeners() {
     document.removeEventListener('keydown', hideFooterModal);
     refs.footerBackDrop.removeEventListener("click", hideFooterModal);
     refs.footerCloseBtn.removeEventListener("click", footerCloseBtnOnClick);
-    document.querySelector("body").classList.add('noScroll');
+    document.querySelector("body").classList.remove('noScroll');
 }
