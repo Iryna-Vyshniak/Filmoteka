@@ -1,28 +1,53 @@
-.library-header{
-    // background-size: 100% auto;
-    // background-repeat: no-repeat;
-    // background-position: center;
-    background-image: url(../images/background_img_library320px.jpg);
+.library-header {
+    position: relative;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.56);
+    background-image: url(../images/library-mobile-min.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    @include retina {
+        background-image: $bg-header-gradient, url(../images/library-mobile@2x-min.png);
+    }
+
+    @include tablet {
+        background-image: $bg-header-gradient, url(../images/library-tablet-min.png);
+
+        @include retina {
+            background-image: $bg-header-gradient, url(../images/library-tablet@2x-min.png);
+        }
+    }
+
+    @include desktop {
+        background-image: $bg-header-gradient, url(../images/library-desktop-min.png);
+
+        @include retina {
+            background-image: $bg-header-gradient, url(../images/library-desktop@2x-min.png);
+        }
+    }
 
 }
 
-.test{
+.test {
     display: flex;
     justify-content: center;
     padding-bottom: 60px;
 
 }
 
-.button{
+.button {
     width: 148px;
     height: 42px;
     border: 1px solid transparent;
     border-radius: 5px;
     cursor: pointer;
     color: white;
-    border-color:white;
-    background-color:transparent;
-    &:first-child{
+    border-color: white;
+    background-color: transparent;
+
+    &:first-child {
         margin-right: 16px;
 
     }
@@ -32,12 +57,12 @@
         // outline: none;
         background-color: $accent-color;
         border: none;
-        }
+    }
 }
 
 
 
-.navigation-list__link{
+.navigation-list__link {
     position: relative
 }
 
@@ -58,17 +83,17 @@
         height: 3px;
         background-color: $accent-color;
     }
-  }
+}
 
-  @media screen and (min-width: $tablet) {
-    .library-header{
-    background-image: url(../images/background_img_library768px.jpg);
+@media screen and (min-width: $tablet) {
+    .library-header {
+        background-image: url(../images/background_img_library768px.jpg);
     }
 }
 
-@media screen and (min-width: $desktop){
-    .library-header{
-      background-image: url(../images/background_img_library1280px.jpg);
-      }
-    
-  }
+@media screen and (min-width: $desktop) {
+    .library-header {
+        background-image: url(../images/background_img_library1280px.jpg);
+    }
+
+}
