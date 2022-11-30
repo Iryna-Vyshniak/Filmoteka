@@ -90,8 +90,9 @@ async function onMovieCardClick(event) {
   try {
     spinnerPlay();
     const movieId = movieCard.dataset.id;
+
     const movieStatus = movieCard.dataset.status;
-    console.log(movieStatus);
+
     await themoviedbAPI.fetchMovieById(movieId).then(data => {
       const posterPath = data.poster_path
         ? `https://image.tmdb.org/t/p/w300${data.poster_path}`
@@ -116,35 +117,73 @@ async function onMovieCardClick(event) {
       filmData.genres = filmData.genres.join(', ');
 
       createModalMarkUp(filmData);
-    });
 
-    const removeFromWatchedBtn = document.querySelector(
-      '.lightbox-modal__watched-button'
-    );
-    removeFromWatchedBtn.textContent = 'Remove from Watched';
+      const removeFromWatchedBtn = document.querySelector(
+        '.lightbox-modal__watched-button'
+      );
+      const removeFromQuequeBtn = document.querySelector(
+        '.lightbox-modal__queque-button'
+      );
 
-    const removeFromQuequeBtn = document.querySelector(
-      '.lightbox-modal__queque-button'
-    );
-    removeFromQuequeBtn.textContent = 'Remove from Queque';
+      checkLocalStorageLibrary(
+        themoviedbAPI.WATCH_KEY,
+        filmData,
+        removeFromWatchedBtn,
+        'Remove from Watched',
+        onRemoveFromWatchedClick,
+        'watched'
+      );
+      checkLocalStorageLibrary(
+        themoviedbAPI.QUEUE_KEY,
+        filmData,
+        removeFromQuequeBtn,
+        'Remove from Queque',
+        onRemoveFromQuequeClick,
+        'queque'
+      );
 
-    removeFromWatchedBtn.addEventListener('click', e => {
-      const movieId = e.target.closest('.lightbox-modal').dataset.id;
-      removeLocal(themoviedbAPI.WATCH_KEY, movieId);
-      if (movieStatus === 'watched') {
-        movieCard.remove();
+      function onRemoveFromWatchedClick(e) {
+        const movieId = e.target.dataset.btn;
+        if (e.target.dataset.list === 'watched') {
+          removeLocal(themoviedbAPI.WATCH_KEY, movieId);
+          movieCard.remove();
+          e.target.textContent = 'Removed from Watched';
+          e.target.disabled = true;
+        }
+      }
+
+      function onRemoveFromQuequeClick(e) {
+        const movieId = e.target.dataset.btn;
+        if (movieStatus === 'queue') {
+          e.target.textContent = 'Removed from Queque';
+          e.target.disabled = true;
+          removeLocal(themoviedbAPI.QUEUE_KEY, movieId);
+          movieCard.remove();
+        }
       }
     });
-    removeFromQuequeBtn.addEventListener('click', e => {
-      const movieId = e.target.closest('.lightbox-modal').dataset.id;
-      removeLocal(themoviedbAPI.QUEUE_KEY, movieId);
-      if (movieStatus === 'queue') {
-        movieCard.remove();
-      }
-    });
+
+    // removeFromWatchedBtn.textContent = 'Remove from Watched';
+
+    // removeFromQuequeBtn.textContent = 'Remove from Queque';
   } catch (error) {
     console.log(error);
   } finally {
     spinnerStop();
+  }
+}
+
+function checkLocalStorageLibrary(key, filmData, btn, btnText, fn, status) {
+  const locStorage = get(key);
+  const currentFilm = filmData;
+  const includesFilm = locStorage.find(film => film.id === currentFilm.id);
+
+  if (includesFilm) {
+    btn.dataset.list = `${status}`;
+    btn.textContent = `${btnText}`;
+    btn.addEventListener('click', fn);
+  }
+  if (!includesFilm) {
+    btn.classList.add('visually-hidden');
   }
 }
