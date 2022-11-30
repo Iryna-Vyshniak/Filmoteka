@@ -5,7 +5,6 @@ import { ThemoviedbAPI } from './themoviedbAPI';
 import BigPicture from 'bigpicture';
 import { set, get, remove } from './localStorageUse';
 
-
 const movieAPI = new ThemoviedbAPI();
 
 export function getItems(parent) {
@@ -59,7 +58,7 @@ async function onFilmCardClick(event) {
         genres: [],
         popularity: data.popularity,
         overview: data.overview.replaceAll("'", '`'),
-        vote_average: data.vote_average,
+        vote_average: data.vote_average.toFixed(1),
         vote_count: data.vote_count,
         release_date: releaseYear,
       };

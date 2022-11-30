@@ -8,6 +8,7 @@
   line-height: 1.14;
   background-color: $secondary-bgc;
   color: $footer-text-color;
+  z-index: 1000;
 
   @media screen and (min-width: $tablet) {
     flex-wrap: nowrap;
@@ -49,7 +50,6 @@
       color: $accent-color;
     }
   }
-
 
   &__backdrop {
     width: 100vw;

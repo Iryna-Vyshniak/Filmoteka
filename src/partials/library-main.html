@@ -6,8 +6,14 @@
     <div class="container library-container js-container">
       <!-- заглушка - додаємо .visually-hidden на li (в стилях прописаний), коли рендерим розмітку карток -->
       <div class="empty-bg">
-        <h2 class="js-title-queue preserve">Your list is empty...</h2>
-        <img src="./images/movie.png" alt="cinema" />
+        <h2 class="js-title-queue preserve visually-hidden">
+          Your list is empty...
+        </h2>
+        <img
+          src="./images/movie.png"
+          alt="cinema"
+          class="js-library-bg-image visually-hidden"
+        />
         <div class="cloak__wrapper preserve">
           <div class="cloak__container preserve">
             <div class="cloak preserve"></div>

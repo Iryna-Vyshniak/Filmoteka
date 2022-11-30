@@ -1,67 +1,67 @@
 .library-header {
-    position: relative;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.56);
-    background-image: url(../images/library-mobile-min.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+  position: relative;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.56);
+  background-image: url(../images/library-mobile-min.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 100;
+
+  @include retina {
+    background-image: $bg-header-gradient,
+      url(../images/library-mobile@2x-min.png);
+  }
+
+  @include tablet {
+    background-image: $bg-header-gradient, url(../images/library-tablet-min.png);
 
     @include retina {
-        background-image: $bg-header-gradient, url(../images/library-mobile@2x-min.png);
+      background-image: $bg-header-gradient,
+        url(../images/library-tablet@2x-min.png);
     }
+  }
 
-    @include tablet {
-        background-image: $bg-header-gradient, url(../images/library-tablet-min.png);
+  @include desktop {
+    background-image: $bg-header-gradient,
+      url(../images/library-desktop-min.png);
 
-        @include retina {
-            background-image: $bg-header-gradient, url(../images/library-tablet@2x-min.png);
-        }
+    @include retina {
+      background-image: $bg-header-gradient,
+        url(../images/library-desktop@2x-min.png);
     }
-
-    @include desktop {
-        background-image: $bg-header-gradient, url(../images/library-desktop-min.png);
-
-        @include retina {
-            background-image: $bg-header-gradient, url(../images/library-desktop@2x-min.png);
-        }
-    }
-
+  }
 }
 
 .test {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 60px;
-
+  display: flex;
+  justify-content: center;
+  padding-bottom: 60px;
 }
 
 .button {
-    width: 148px;
-    height: 42px;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    cursor: pointer;
-    color: white;
-    border-color: white;
-    background-color: transparent;
+  width: 148px;
+  height: 42px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  border-color: white;
+  background-color: transparent;
 
-    &:first-child {
-        margin-right: 16px;
+  &:first-child {
+    margin-right: 16px;
+  }
 
-    }
-
-    &:hover,
-    &:focus {
-        // outline: none;
-        background-color: $accent-color;
-        border: none;
-    }
+  &:hover,
+  &:focus {
+    // outline: none;
+    background-color: $accent-color;
+    border: none;
+  }
 }
 
-
-
 .navigation-list__link {
-    position: relative
+  position: relative;
 }
