@@ -1,4 +1,5 @@
 main {
+  flex: 1 1 auto;
   height: fit-content;
   padding-bottom: 40px;
 
@@ -186,6 +187,7 @@ main {
   gap: 5px;
   color: $accent-color;
 }
+
 .info-item-genre {
   display: inline-flex;
   flex-wrap: nowrap;
@@ -311,14 +313,38 @@ main {
 
 // THEME
 body.light-theme {
-  background-color: #fff;
+  background-color: $primary-text-color;
 }
 
 body.dark-theme {
   background: linear-gradient(to right, #6f0000, #200122);
 
   .movie-info-title {
-    color: #ffffff;
+    color: $primary-text-color;
+  }
+
+  div ~ .tui-pagination .tui-page-btn {
+    color: $primary-text-color;
+    text-shadow: 0.5px 0.5px 1px #0f0f0f, 0.5px -0.5px 0.5px #f00;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin-right: 7px;
+    box-shadow: -0.5px -0.5px 3px #e20000, 0.5px 0.5px 3px #0000001a;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $accent-color;
+      color: $primary-text-color;
+      box-shadow: inset -1px -1px 3px white,
+        inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  div.tui-pagination .tui-is-selected,
+  div.tui-pagination strong {
+    background-color: $accent-color;
+    color: $primary-text-color;
   }
 }
 
@@ -508,14 +534,6 @@ body.dark-theme {
     transparent,
     rgb(101, 0, 0) 35%
   );
-
-  &--dark {
-    background: radial-gradient(
-      50% 40% at 50% 42%,
-      transparent,
-      rgb(18, 2, 2) 25%
-    );
-  }
 }
 
 .cloak__wrapper {

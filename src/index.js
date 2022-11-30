@@ -38,6 +38,10 @@ try {
 refs.formEl.addEventListener('submit', onSearchFormSubmit);
 pagination.on('beforeMove', loadMoreFavouritesMovies);
 
+pagination.on('afterMove', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 async function startPage() {
   const genresIds = await themoviedbAPI.fetchGenres();
   const trendMovies = await themoviedbAPI.fetchFavouritesMovies(page);
