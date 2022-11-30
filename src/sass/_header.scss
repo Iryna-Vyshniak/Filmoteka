@@ -183,16 +183,14 @@
       transition: width 0.2s ease-in-out;
     }
 
-    &:hover:after {
+    &:hover::after,
+    &:focus::after {
       width: 0;
     }
   }
 
 
-  @media screen and (min-width: $tablet) {
-    .header {
-      background-image: url(../images/abstract-background-with-red-lines\ 768.jpg);
-    }
+  @include tablet {
 
     // .header-title {
     //   display: block;
@@ -237,13 +235,8 @@
 
   }
 
-  @media screen and (min-width: 1280px) {
-    .header {
-      background-image: url(../images/abstract-background-with-red-lines\ 1280.jpg);
-    }
-
+  @include desktop {
     .form-input {
       width: 394px;
-
     }
   }
