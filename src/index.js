@@ -30,7 +30,7 @@ try {
   refs.footerLink.addEventListener('click', callfooterModal);
   window.addEventListener('scroll', scrollFunction);
 } catch (error) {
-  console.log(error);
+  Notify.failure('Ооps, something went wrong, please try again');
 } finally {
   spinnerStop();
 }
@@ -93,7 +93,7 @@ async function onSearchFormSubmit(event) {
       refs.paginationContainer.style.display = 'block';
     }
   } catch (err) {
-    console.log(err);
+    Notify.failure('Ооps, something went wrong, please try again');
   } finally {
     spinnerStop();
   }
@@ -116,7 +116,7 @@ async function loadMoreFavouritesMovies(event) {
     refs.gallery.innerHTML = markup;
     allProducts = [...getItems(refs.gallery)];
   } catch (error) {
-    console.log(error);
+    Notify.failure('Ооps, something went wrong, please try again');
   } finally {
     spinnerStop();
   }
@@ -136,7 +136,7 @@ async function loadMoreMoviesByQuery(event) {
     refs.gallery.innerHTML = markup;
     allProducts = [...getItems(refs.gallery)];
   } catch (error) {
-    console.log(error);
+    Notify.failure('Ооps, something went wrong, please try again');
   } finally {
     spinnerStop();
   }

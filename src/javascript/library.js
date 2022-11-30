@@ -16,7 +16,7 @@ try {
   renderWatchedMovies();
   libRefs.footerLink.addEventListener('click', libraryFooterModalOpen);
 } catch (error) {
-  console.log(error);
+  Notify.failure('Ооps, something went wrong, please try again');
 } finally {
   spinnerStop();
 }
@@ -45,44 +45,58 @@ async function renderWatchedMovies() {
   libRefs.library.innerHTML = '';
   const watchedMovies = get(themoviedbAPI.WATCH_KEY);
   displayBg(watchedMovies);
-  const watchedMoviesIds = watchedMovies.map(movie => movie.id);
-  watchedMoviesIds.forEach(async id => {
-    const movie = await themoviedbAPI.fetchMovieById(id);
-    const genre = movie.genres.map(genre => genre.name);
-    if (genre.length > 2) {
-      genre.splice(2, genre.length - 1, 'Other');
-    }
-    if (genre.length === 0) {
-      genre.push('Other');
-    }
-    libRefs.library.insertAdjacentHTML(
-      'beforeend',
-      renderLibraryMarkup(movie, genre.join(', '))
-    );
-    libRefs.library.lastElementChild.setAttribute('data-status', 'watched');
-  });
+  try {
+    const watchedMoviesIds = watchedMovies.map(movie => movie.id);
+    watchedMoviesIds.forEach(async id => {
+      const movie = await themoviedbAPI.fetchMovieById(id);
+      const genre = movie.genres.map(genre => genre.name);
+      if (genre.length > 2) {
+        genre.splice(2, genre.length - 1, 'Other');
+      }
+      if (genre.length === 0) {
+        genre.push('Other');
+      }
+      libRefs.library.insertAdjacentHTML(
+        'beforeend',
+        renderLibraryMarkup(movie, genre.join(', '))
+      );
+      libRefs.library.lastElementChild.setAttribute('data-status', 'watched');
+    });
+  }
+  catch (error) {
+    Notify.failure('Ооps, something went wrong, please try again');
+  }
 }
 
 async function renderQueueMovies() {
+  spinnerPlay();
   libRefs.library.innerHTML = '';
   const queueMovies = get(themoviedbAPI.QUEUE_KEY);
   displayBg(queueMovies);
   const queueMoviesIDes = queueMovies.map(movie => movie.id);
-  queueMoviesIDes.forEach(async id => {
-    const movie = await themoviedbAPI.fetchMovieById(id);
-    const genre = movie.genres.map(genre => genre.name);
-    if (genre.length > 2) {
-      genre.splice(2, genre.length - 1, 'Other');
-    }
-    if (genre.length === 0) {
-      genre.push('Other');
-    }
-    libRefs.library.insertAdjacentHTML(
-      'beforeend',
-      renderLibraryMarkup(movie, genre.join(', '))
-    );
-    libRefs.library.lastElementChild.setAttribute('data-status', 'queue');
-  });
+  try {
+    queueMoviesIDes.forEach(async id => {
+      const movie = await themoviedbAPI.fetchMovieById(id);
+      const genre = movie.genres.map(genre => genre.name);
+      if (genre.length > 2) {
+        genre.splice(2, genre.length - 1, 'Other');
+      }
+      if (genre.length === 0) {
+        genre.push('Other');
+      }
+      libRefs.library.insertAdjacentHTML(
+        'beforeend',
+        renderLibraryMarkup(movie, genre.join(', '))
+      );
+      libRefs.library.lastElementChild.setAttribute('data-status', 'queue');
+    });
+  }
+  catch (error) {
+    Notify.failure('Ооps, something went wrong, please try again');
+  }
+  finally {
+    spinnerStop();
+  }
 }
 
 async function onMovieCardClick(event) {
@@ -164,11 +178,8 @@ async function onMovieCardClick(event) {
       }
     });
 
-    // removeFromWatchedBtn.textContent = 'Remove from Watched';
-
-    // removeFromQuequeBtn.textContent = 'Remove from Queque';
   } catch (error) {
-    console.log(error);
+    Notify.failure('Ооps, something went wrong, please try again');
   } finally {
     spinnerStop();
   }
