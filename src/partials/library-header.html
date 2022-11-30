@@ -1,12 +1,19 @@
 <header class="header library-header">
   <div class="container container--header">
     <div class="header-wraper">
-      <div class="logo-container">
+      <!-- <div class="logo-container">
         <a href="./index.html">
           <img src="./images/film.svg" alt="" class="logo" />
         </a>
         <h1 class="header-title">Filmoteka</h1>
-
+      </div> -->
+      <div class="logo-container">
+        <a href="./index.html" class="logo-site">
+          <svg class="logo" width="24" height="24">
+            <use class="logo-icon" href="./images/icons.svg#icon-film"></use>
+          </svg>
+          <span class="logo__name">Filmoteka</span>
+        </a>
       </div>
 
       <nav class="header-navigation">
@@ -24,6 +31,17 @@
     <div class="test">
       <button type="button" class="button button-watched">WATCHED</button>
       <button type="button" class="button button-queue">QUEUE</button>
+      <div class="toolbar">
+        <div class="theme-switch">
+          <div class="theme-switch__control">
+            <input class="theme-switch__toggle" type="checkbox" name="theme" id="theme-switch-toggle"
+              aria-label="switch theme" />
+            <label aria-hidden="true" class="theme-switch__track" for="theme-switch-toggle">
+            </label>
+            <div aria-hidden="true" class="theme-switch__marker"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
