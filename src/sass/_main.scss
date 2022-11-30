@@ -1,3 +1,10 @@
+main {
+  padding-bottom: 40px;
+
+  @media screen and (min-width: $tablet) {
+    padding-bottom: 60px;
+  }
+}
 // MOVIE CARDS
 
 .gallery-section {

@@ -56,7 +56,7 @@ async function onFilmCardClick(event) {
         title: data.title.replaceAll("'", '`'),
         originalTitle: data.original_title.replaceAll("'", '`'),
         genres: [],
-        popularity: data.popularity,
+        popularity: data.popularity.toFixed(1),
         overview: data.overview.replaceAll("'", '`'),
         vote_average: data.vote_average.toFixed(1),
         vote_count: data.vote_count,
