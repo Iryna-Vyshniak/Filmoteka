@@ -65,35 +65,3 @@
 .navigation-list__link {
     position: relative
 }
-
-.site-nav__link--current {
-    display: block;
-
-    &::after {
-        content: '';
-
-        position: absolute;
-        bottom: -10px;
-        left: 0;
-
-        transform: translateY(1px);
-
-        display: block;
-        width: 100%;
-        height: 3px;
-        background-color: $accent-color;
-    }
-}
-
-@media screen and (min-width: $tablet) {
-    .library-header {
-        background-image: url(../images/background_img_library768px.jpg);
-    }
-}
-
-@media screen and (min-width: $desktop) {
-    .library-header {
-        background-image: url(../images/background_img_library1280px.jpg);
-    }
-
-}
