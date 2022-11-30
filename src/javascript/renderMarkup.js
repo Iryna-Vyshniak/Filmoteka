@@ -1,16 +1,9 @@
 export function renderMarkup(data, genres) {
-
-  const {
-    id,
-    poster_path,
-    title,
-    release_date,
-    vote_average,
-  } = data;
+  const { id, poster_path, title, release_date, vote_average } = data;
   const posterPath = data.poster_path
     ? `https://image.tmdb.org/t/p/w300${poster_path}`
     : `https://astoriamuseums.org/wp-content/uploads/2020/10/OFM-poster-not-available.png`;
-  const releaseYear = new Date(Date.parse(release_date)).getFullYear();
+  const releaseYear = new Date(Date.parse(release_date)).getFullYear() || '';
 
   return `<li class="gallery__item movie-card" data-id="${id}">
                   <div class="movie-card__poster-thumb">
