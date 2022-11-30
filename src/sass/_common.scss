@@ -6,11 +6,11 @@ body {
   color: $primary-text-color;
   line-height: $primary-line-height;
   position: relative;
-  padding-bottom: 40px;
+  // padding-bottom: 40px;
 
-  @media screen and (min-width: $tablet) {
-    padding-bottom: 60px;
-  }
+  // @media screen and (min-width: $tablet) {
+  //   padding-bottom: 60px;
+  // }
 }
 
 h1,
