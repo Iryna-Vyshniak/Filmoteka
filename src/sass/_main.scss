@@ -534,6 +534,14 @@ body.dark-theme {
     transparent,
     rgb(101, 0, 0) 35%
   );
+
+  &--dark {
+    background: radial-gradient(
+      50% 40% at 50% 42%,
+      transparent,
+      rgb(19, 3, 3) 35%
+    );
+  }
 }
 
 .cloak__wrapper {
