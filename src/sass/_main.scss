@@ -1,8 +1,13 @@
 // MOVIE CARDS
 
 .gallery-section {
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 20px;
+  padding-bottom: 40px;
+
+  @media screen and (min-width: $tablet) {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
 }
 
 .gallery {
@@ -308,7 +313,7 @@ body.dark-theme {
   padding: 10px 14px;
   margin-left: 24px;
   position: absolute;
-  top:0;
+  top: 0;
   right: 0;
 }
 
@@ -584,7 +589,7 @@ body.dark-theme {
   position: fixed;
   bottom: 20px;
   right: 30px;
-  z-index: 99;
+  z-index: 10000;
   border: none;
   width: 100px;
   height: 100px;
@@ -634,4 +639,9 @@ body.dark-theme {
   100% {
     transform: rotate(360deg) scale(1);
   }
+}
+
+.tui-pagination {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
