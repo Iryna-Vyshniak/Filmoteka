@@ -65,3 +65,8 @@
 .navigation-list__link {
   position: relative;
 }
+
+.is-active-library {
+  background-color: $accent-color;
+  border: none;
+}
