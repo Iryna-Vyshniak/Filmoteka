@@ -73,6 +73,7 @@ ${overview}
 </div>`,
     {
       onShow: instance => {
+        document.querySelector('body').classList.add('noScroll');
         instance.element().querySelector('.lightbox-modal__close-btn').onclick =
           instance.close;
 
@@ -86,7 +87,9 @@ ${overview}
 
         window.addEventListener('keydown', onEscClick);
       },
-      onClose: instance => {},
+      onClose: instance => {
+        document.querySelector('body').classList.remove('noScroll');
+      },
     }
   );
   instance.show();
