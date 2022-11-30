@@ -16,7 +16,7 @@ export function createModalMarkUp(
 ) {
   const instance = basicLightbox.create(
     `
-   <div class="lightbox-modal" data-id='${id}'>
+   <div class="lightbox-modal">
    <button
       data-map-close
       class="lightbox-modal__close-btn"
@@ -75,15 +75,18 @@ ${overview}
       onShow: instance => {
         instance.element().querySelector('.lightbox-modal__close-btn').onclick =
           instance.close;
-        window.addEventListener('keydown', event => {
-          console.log(event);
+
+        function onEscClick(event) {
+          // console.log(event.code);
           if (event.code === 'Escape' || event.code === 'Space') {
-            window.removeEventListener;
+            window.removeEventListener('keydown', onEscClick);
             instance.close();
           }
-        });
+        }
+
+        window.addEventListener('keydown', onEscClick);
       },
-      onClose: instance => { },
+      onClose: instance => {},
     }
   );
   instance.show();
