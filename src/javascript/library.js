@@ -133,13 +133,14 @@ async function onMovieCardClick(event) {
         onRemoveFromWatchedClick,
         'watched'
       );
+
       checkLocalStorageLibrary(
         themoviedbAPI.QUEUE_KEY,
         filmData,
         removeFromQuequeBtn,
         'Remove from Queque',
         onRemoveFromQuequeClick,
-        'queque'
+        'queue'
       );
 
       function onRemoveFromWatchedClick(e) {
@@ -154,11 +155,11 @@ async function onMovieCardClick(event) {
 
       function onRemoveFromQuequeClick(e) {
         const movieId = e.target.dataset.btn;
-        if (movieStatus === 'queue') {
-          e.target.textContent = 'Removed from Queque';
-          e.target.disabled = true;
+        if (e.target.dataset.list === 'queue') {
           removeLocal(themoviedbAPI.QUEUE_KEY, movieId);
           movieCard.remove();
+          e.target.textContent = 'Removed from Queque';
+          e.target.disabled = true;
         }
       }
     });
