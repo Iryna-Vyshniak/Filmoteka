@@ -6,7 +6,7 @@ export function renderLibraryMarkup(data, genres) {
     : `https://astoriamuseums.org/wp-content/uploads/2020/10/OFM-poster-not-available.png`;
   const releaseYear = new Date(Date.parse(release_date)).getFullYear() || '';
 
-  return `<li class="gallery__item gallery__item--library movie-card" data-id="${id}">
+  return `<li class="gallery__item-library movie-card" data-id="${id}">
                   <div class="movie-card__poster-thumb">
                     <img src="${posterPath}"
                         class="movie-card__poster"
