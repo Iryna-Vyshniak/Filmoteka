@@ -104,7 +104,7 @@ async function onMovieCardClick(event) {
         title: data.title,
         originalTitle: data.original_title,
         genres: [],
-        popularity: data.popularity,
+        popularity: data.popularity.toFixed(1),
         overview: data.overview,
         vote_average: data.vote_average.toFixed(1),
         vote_count: data.vote_count,
