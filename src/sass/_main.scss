@@ -336,7 +336,8 @@ body.dark-theme {
     &:hover {
       background-color: $accent-color;
       color: $primary-text-color;
-      box-shadow: inset -1px -1px 3px white, inset 1px 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: inset -1px -1px 3px white,
+        inset 1px 1px 3px rgba(0, 0, 0, 0.1);
     }
   }
 
@@ -474,10 +475,12 @@ body.dark-theme {
   text-transform: uppercase;
   letter-spacing: 1rem;
   overflow: hidden;
-  background: linear-gradient(290deg,
-      rgb(81, 28, 0),
-      rgb(238, 238, 238),
-      rgb(255, 98, 0));
+  background: linear-gradient(
+    290deg,
+    rgb(81, 28, 0),
+    rgb(238, 238, 238),
+    rgb(255, 98, 0)
+  );
   background-repeat: no-repeat;
   background-size: 100%;
   -webkit-background-clip: text;
@@ -507,8 +510,11 @@ body.dark-theme {
     left: 0;
     color: rgb(0, 0, 0);
     filter: blur(1.2vmin);
-    transform: scale(1.5) translate3d(0, 12%, -10vmin) translate(calc((var(--swing-x, 0) * 0.05) * 1%),
-        calc((var(--swing-y) * 0.05) * 1%));
+    transform: scale(1.5) translate3d(0, 12%, -10vmin)
+      translate(
+        calc((var(--swing-x, 0) * 0.05) * 1%),
+        calc((var(--swing-y) * 0.05) * 1%)
+      );
   }
 }
 
@@ -523,9 +529,19 @@ body.dark-theme {
   width: 100%;
   transform-origin: 50% 30%;
   transform: rotate(calc(var(--swing-x) * -0.25deg));
-  background: radial-gradient(50% 40% at 50% 42%,
+  background: radial-gradient(
+    50% 40% at 50% 42%,
+    transparent,
+    rgb(101, 0, 0) 35%
+  );
+
+  &--dark {
+    background: radial-gradient(
+      50% 40% at 50% 42%,
       transparent,
-      rgb(101, 0, 0) 35%);
+      rgb(19, 3, 3) 35%
+    );
+  }
 }
 
 .cloak__wrapper {
@@ -690,10 +706,12 @@ body.dark-theme {
   text-transform: uppercase;
   letter-spacing: 1rem;
   overflow: hidden;
-  background: linear-gradient(290deg,
-      rgb(81, 28, 0),
-      rgb(238, 238, 238),
-      rgb(255, 98, 0));
+  background: linear-gradient(
+    290deg,
+    rgb(81, 28, 0),
+    rgb(238, 238, 238),
+    rgb(255, 98, 0)
+  );
   background-repeat: no-repeat;
   background-size: 100%;
   -webkit-background-clip: text;
@@ -723,8 +741,11 @@ body.dark-theme {
     left: 0;
     color: rgb(0, 0, 0);
     filter: blur(1.2vmin);
-    transform: scale(1.5) translate3d(0, 12%, -10vmin) translate(calc((var(--swing-x, 0) * 0.05) * 1%),
-        calc((var(--swing-y) * 0.05) * 1%));
+    transform: scale(1.5) translate3d(0, 12%, -10vmin)
+      translate(
+        calc((var(--swing-x, 0) * 0.05) * 1%),
+        calc((var(--swing-y) * 0.05) * 1%)
+      );
   }
 }
 
