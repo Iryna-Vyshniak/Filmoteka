@@ -213,7 +213,7 @@
     align-items: center;
   }
 
-  &__watched-button {
+  &__button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -221,51 +221,27 @@
     height: 44px;
     margin-right: 20px;
     padding: 6px;
-    border: none;
-    background-color: #ff6b01;
     border-radius: 5px;
     text-transform: uppercase;
+    background-color: transparent;
     font-weight: 500;
     font-size: 12px;
     line-height: 1.33;
-    color: #fff;
     transform: scale(1);
     @include transition(transform);
 
     &:hover,
     &:focus {
+      border: none;
+      background-color: #ff6b01;
+      color: #fff;
       transform: scale(1.1);
     }
 
     &:disabled {
-      opacity: 0.6;
-      transform: scale(1);
-    }
-  }
-
-  &__queque-button {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 110px;
-    height: 44px;
-    padding: 6px;
-    background-color: transparent;
-    border: 1px solid #000000;
-    border-radius: 5px;
-    text-transform: uppercase;
-    color: #000000;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1.33;
-    transform: scale(1);
-
-    &:hover,
-    &:focus {
-      transform: scale(1.1);
-    }
-
-    &:disabled {
+      border: none;
+      background-color: #ff6b01;
+      color: #fff;
       opacity: 0.6;
       transform: scale(1);
     }
@@ -302,15 +278,10 @@
       height: 374px;
     }
 
-    &__watched-button {
+    &__button {
       margin-right: 15px;
       width: 125px;
       padding: 14px 9px 12px 9px;
-    }
-
-    &__queque-button {
-      width: 125px;
-      padding: 14px 6px 12px 6px;
     }
   }
 }
@@ -352,12 +323,7 @@
       margin-left: 84px;
     }
 
-    &__watched-button {
-      width: 135px;
-      padding: 14px 6px 12px 6px;
-    }
-
-    &__queque-button {
+    &__button {
       width: 135px;
       padding: 14px 6px 12px 6px;
     }

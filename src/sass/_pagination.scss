@@ -31,9 +31,12 @@ div.tui-pagination .tui-page-btn {
   &.tui-first {
     background-color: $secondary-bgc;
   }
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: $accent-color;
     color: $primary-text-color;
+    border: none;
+    outline: none;
   }
 }
 

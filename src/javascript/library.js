@@ -11,6 +11,8 @@ import { libraryFooterModalOpen } from './libraryFooterModalOpen';
 
 const themoviedbAPI = new ThemoviedbAPI();
 
+libRefs.watchBtn.classList.add('is-active-library');
+
 try {
   spinnerPlay();
   renderWatchedMovies();
@@ -21,8 +23,16 @@ try {
   spinnerStop();
 }
 
-libRefs.watchBtn.addEventListener('click', renderWatchedMovies);
-libRefs.queueBtn.addEventListener('click', renderQueueMovies);
+libRefs.watchBtn.addEventListener('click', () => {
+  libRefs.queueBtn.classList.remove('is-active-library');
+  libRefs.watchBtn.classList.add('is-active-library');
+  renderWatchedMovies();
+});
+libRefs.queueBtn.addEventListener('click', () => {
+  libRefs.watchBtn.classList.remove('is-active-library');
+  libRefs.queueBtn.classList.add('is-active-library');
+  renderQueueMovies();
+});
 libRefs.library.addEventListener('click', onMovieCardClick);
 
 function displayBg(array) {
@@ -181,7 +191,6 @@ async function onMovieCardClick(event) {
         displayBg(get(themoviedbAPI.QUEUE_KEY))
       }
     });
-
   } catch (error) {
     Notify.failure('Ооps, something went wrong, please try again');
   } finally {
