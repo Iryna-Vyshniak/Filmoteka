@@ -141,7 +141,8 @@
 }
 
 .search-btn {
-  background-color: #ffffff;
+  stroke: #ffffff;
+
   fill: #ffffff;
   position: absolute;
   width: 22px;
@@ -153,6 +154,13 @@
   background: url(../images/search\ 2.svg);
   background-repeat: no-repeat;
   background-position: center;
+  transform: scale(1);
+  @include transition(transform);
+
+  &:hover,
+  &:focus {
+    transform: scale(1.2);
+  }
 }
 
 .site-nav__link--current {
