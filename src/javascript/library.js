@@ -139,12 +139,15 @@ async function onMovieCardClick(event) {
         '.lightbox-modal__queque-button'
       );
 
+      removeFromWatchedBtn.addEventListener('click', onRemoveFromWatchedClick);
+      removeFromQuequeBtn.addEventListener('click', onRemoveFromQuequeClick);
+
+
       checkLocalStorageLibrary(
         themoviedbAPI.WATCH_KEY,
         filmData,
         removeFromWatchedBtn,
         'Remove from Watched',
-        onRemoveFromWatchedClick,
         'watched'
       );
 
@@ -153,28 +156,29 @@ async function onMovieCardClick(event) {
         filmData,
         removeFromQuequeBtn,
         'Remove from Queque',
-        onRemoveFromQuequeClick,
         'queue'
       );
 
       function onRemoveFromWatchedClick(e) {
         const movieId = e.target.dataset.btn;
-        if (e.target.dataset.list === 'watched') {
-          removeLocal(themoviedbAPI.WATCH_KEY, movieId);
+        removeLocal(themoviedbAPI.WATCH_KEY, movieId);
+        e.target.textContent = 'Removed from Watched';
+        e.target.disabled = true;
+        if (e.target.dataset.list === movieStatus) {
           movieCard.remove();
-          e.target.textContent = 'Removed from Watched';
-          e.target.disabled = true;
         }
+        displayBg(get(themoviedbAPI.WATCH_KEY))
       }
 
       function onRemoveFromQuequeClick(e) {
         const movieId = e.target.dataset.btn;
-        if (e.target.dataset.list === 'queue') {
-          removeLocal(themoviedbAPI.QUEUE_KEY, movieId);
+        removeLocal(themoviedbAPI.QUEUE_KEY, movieId);
+        e.target.textContent = 'Removed from Queque';
+        e.target.disabled = true;
+        if (e.target.dataset.list === movieStatus) {
           movieCard.remove();
-          e.target.textContent = 'Removed from Queque';
-          e.target.disabled = true;
         }
+        displayBg(get(themoviedbAPI.QUEUE_KEY))
       }
     });
 
@@ -185,7 +189,7 @@ async function onMovieCardClick(event) {
   }
 }
 
-function checkLocalStorageLibrary(key, filmData, btn, btnText, fn, status) {
+function checkLocalStorageLibrary(key, filmData, btn, btnText, status) {
   const locStorage = get(key);
   const currentFilm = filmData;
   const includesFilm = locStorage.find(film => film.id === currentFilm.id);
@@ -193,7 +197,6 @@ function checkLocalStorageLibrary(key, filmData, btn, btnText, fn, status) {
   if (includesFilm) {
     btn.dataset.list = `${status}`;
     btn.textContent = `${btnText}`;
-    btn.addEventListener('click', fn);
   }
   if (!includesFilm) {
     btn.classList.add('visually-hidden');
@@ -207,7 +210,7 @@ const Theme = {
 
 const STORAGE_KEY = 'themeKeyLibrary';
 
-const libraryCheckBox = document.querySelector('.library-theme-switch__toggle');
+const libraryCheckBox = document.querySelector('.theme-switch__toggle');
 const bgEl = document.querySelector('.cloak');
 
 libraryCheckBox.addEventListener('change', onChange);

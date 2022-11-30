@@ -25,12 +25,14 @@ export const set = (key, value) => {
 export const removeLocal = (key, id) => {
   try {
     const locStorage = get(key);
-    const restFilms = locStorage.filter(film => film.id != id);
+    const restFilms = [...locStorage].filter(film => film.id != id);
     localStorage.setItem(key, JSON.stringify(restFilms));
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Get state error: ', error.message);
   }
-};
+}
+
 
 export const clear = () => {
   localStorage.clear();
