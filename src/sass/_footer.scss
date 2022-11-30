@@ -177,13 +177,12 @@
   position: relative;
   margin-bottom: 20px;
   text-align: center;
-  // text-transform: uppercase;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 2.5rem;
   letter-spacing: 10px;
   color: #e3e6ee;
   text-shadow: 1px 4px 6px #b1b4bf, 1px -2px 2px #fff;
-  animation: text 2500ms linear alternate 2500ms;
+  // animation: text 2500ms linear alternate 2500ms;
 }
 
 @keyframes text {
