@@ -2,9 +2,7 @@ export function renderMarkup(data, genres) {
 
   const {
     id,
-    genre_ids,
     poster_path,
-    original_title,
     title,
     release_date,
     vote_average,

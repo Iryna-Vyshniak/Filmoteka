@@ -4,7 +4,6 @@ import { createModalMarkUp } from './renderModalMarkUp';
 import { ThemoviedbAPI } from './themoviedbAPI';
 import BigPicture from 'bigpicture';
 import { set, get, remove } from './localStorageUse';
-import { spinnerPlay, spinnerStop } from './spiner'
 
 
 const movieAPI = new ThemoviedbAPI();
@@ -45,7 +44,6 @@ async function onFilmCardClick(event) {
 
   const filmId = selectedProduct.dataset.id;
   try {
-    spinnerPlay();
     movieAPI.fetchMovieById(filmId).then(result => {
       const data = result;
 
@@ -103,8 +101,6 @@ async function onFilmCardClick(event) {
     er => {
       console.log(er);
     };
-  } finally {
-    spinnerStop();
   }
 }
 

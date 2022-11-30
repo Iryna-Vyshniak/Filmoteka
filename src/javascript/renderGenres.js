@@ -1,10 +1,8 @@
-import { themoviedbAPI } from '../index'
-
-export function renderGenres(movie) {
+export function renderGenres(movie, allGenges) {
     const genresName = [];
 
     movie.genre_ids.forEach(genre => {
-        themoviedbAPI.genres.forEach(item => {
+        allGenges.forEach(item => {
             if (item.id === genre) {
                 genresName.push(item.name);
             }
