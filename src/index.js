@@ -69,8 +69,14 @@ async function onSearchFormSubmit(event) {
     refs.gallery.innerHTML = markup;
     allProducts = [...getItems(refs.gallery)];
 
-    refs.paginationContainer.style.display =
-      searchMovies.total_results === 0 ? 'none' : 'block';
+    if (searchMovies.total_results === 0) {
+      refs.formEl.insertAdjacentHTML("afterend", `<div class="input-error">
+       Search result not successful. Enter the correct movie and name  
+      </div>`)
+      refs.paginationContainer.style.display = 'none';
+    } else {
+      refs.paginationContainer.style.display = 'block';
+    }
   } catch (err) {
     console.log(err);
   } finally {

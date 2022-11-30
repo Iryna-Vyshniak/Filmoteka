@@ -305,10 +305,11 @@ body.dark-theme {
 }
 
 .toolbar {
-  display: flex;
-  justify-content: flex-end;
   padding: 10px 14px;
   margin-left: 24px;
+  position: absolute;
+  top:0;
+  right: 0;
 }
 
 .theme-switch {
