@@ -188,3 +188,47 @@ function checkLocalStorageLibrary(key, filmData, btn, btnText, fn, status) {
     btn.classList.add('visually-hidden');
   }
 }
+
+const Theme = {
+  LIGHT: 'light-theme',
+  DARK: 'dark-theme',
+};
+
+const STORAGE_KEY = 'themeKeyLibrary';
+
+const libraryCheckBox = document.querySelector('.library-theme-switch__toggle');
+const bgEl = document.querySelector('.cloak');
+
+libraryCheckBox.addEventListener('change', onChange);
+isTheme();
+
+function onChange(e) {
+  if (e.target.checked) {
+    bgEl.classList.add('cloak--dark');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(Theme.DARK));
+  } else {
+    bgEl.classList.remove('cloak--dark');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(Theme.LIGHT));
+  }
+}
+
+function isTheme() {
+  const saveTheme = localStorage.getItem(STORAGE_KEY);
+
+  if (!saveTheme) {
+    bgEl.classList.remove('cloak--dark');
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(Theme.LIGHT));
+    libraryCheckBox.checked = false;
+  } else {
+    const parseTheme = JSON.parse(saveTheme);
+    if (parseTheme === 'dark-theme') {
+      bgEl.classList.add('cloak--dark');
+      libraryCheckBox.checked = true;
+    }
+    if (parseTheme === 'light-theme') {
+      bgEl.classList.remove('cloak--dark');
+      libraryCheckBox.checked = false;
+    }
+  }
+}
