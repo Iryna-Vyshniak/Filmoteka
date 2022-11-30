@@ -59,7 +59,7 @@ async function onSearchFormSubmit(event) {
   themoviedbAPI.query = event.target.elements.search.value;
   if (!themoviedbAPI.query) {
     return '';
-  };
+  }
   try {
     if (document.querySelector('.input-error')) {
       document.querySelector('.input-error').remove();
@@ -80,14 +80,22 @@ async function onSearchFormSubmit(event) {
 
     refs.gallery.innerHTML = markup;
     allProducts = [...getItems(refs.gallery)];
+    refs.noResultsTitle.classList.add('visually-hidden');
+    refs.noResultsImg.classList.add('visually-hidden');
+    refs.gallerySection.classList.remove('gallery-section--hidden');
+    refs.btnUpWrapper.classList.remove('visually-hidden');
 
     if (searchMovies.total_results === 0) {
       refs.formEl.insertAdjacentHTML(
         'afterend',
         `<div class="input-error">
-       Search result not successful. Enter the correct movie and name  
+       Search result not successful. Enter the correct movie name  
       </div>`
       );
+      refs.noResultsTitle.classList.remove('visually-hidden');
+      refs.noResultsImg.classList.remove('visually-hidden');
+      refs.gallerySection.classList.add('gallery-section--hidden');
+      refs.btnUpWrapper.classList.add('visually-hidden');
       refs.paginationContainer.style.display = 'none';
     } else {
       refs.paginationContainer.style.display = 'block';
