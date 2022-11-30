@@ -50,8 +50,13 @@ async function startPage() {
 async function onSearchFormSubmit(event) {
   event.preventDefault();
   themoviedbAPI.query = event.target.elements.search.value;
-
+  if (!themoviedbAPI.query) {
+    return '';
+  };
   try {
+    if (document.querySelector('.input-error')) {
+      document.querySelector('.input-error').remove();
+    }
     spinnerPlay();
     const searchMovies = await themoviedbAPI.fetchMoviesByQuery(page);
     const markup = searchMovies.results
