@@ -4,6 +4,7 @@ import { createModalMarkUp } from './renderModalMarkUp';
 import { ThemoviedbAPI } from './themoviedbAPI';
 import BigPicture from 'bigpicture';
 import { set, get, remove } from './localStorageUse';
+import { spinnerPlay, spinnerStop } from './spiner';
 
 const movieAPI = new ThemoviedbAPI();
 
@@ -43,6 +44,7 @@ async function onFilmCardClick(event) {
 
   const filmId = selectedProduct.dataset.id;
   try {
+    spinnerPlay();
     movieAPI.fetchMovieById(filmId).then(result => {
       const data = result;
 
@@ -96,10 +98,10 @@ async function onFilmCardClick(event) {
       addToWatchedBtn.addEventListener('click', onAddToWatchedClick);
       addToQuequeBtn.addEventListener('click', onAddToQuequeClick);
     });
-  } catch {
-    er => {
-      console.log(er);
-    };
+  } catch (error) {
+    Notify.failure('Ооps, something went wrong, please try again');
+  } finally {
+    spinnerStop();
   }
 }
 
