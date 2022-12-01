@@ -22,7 +22,7 @@
 }
 
 .basicLightbox__placeholder {
-  overflow: scroll;
+  overflow: auto;
   padding: 48px 20px 40px 20px;
   width: calc(100% - 40px);
   // height: auto;
@@ -115,6 +115,7 @@
       transform: scale(1.1);
     }
   }
+
   &__trailer-icon {
     display: flex;
     align-items: center;
@@ -175,10 +176,12 @@
     color: #ffffff;
     line-height: 1.17;
   }
+
   &__meta-value-votes-divider {
     margin-left: 3px;
     color: #8c8c8c;
   }
+
   &__meta-value-votes {
     display: inline-flex;
     justify-content: center;
@@ -189,6 +192,7 @@
     border-radius: 5px;
     line-height: 1.17;
   }
+
   &__meta-value-title {
     text-transform: uppercase;
   }
@@ -295,6 +299,7 @@
     width: 806px;
     max-height: 558px;
     padding: 40px 12px;
+    overflow: hidden;
   }
 
   .lightbox-modal {

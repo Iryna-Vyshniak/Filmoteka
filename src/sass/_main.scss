@@ -94,22 +94,22 @@ main {
 
 // gallery-library
 .gallery--library {
-  gap: 20px;
+  // gap: 20px;
 
   @include min-max-tablet {
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 32px;
+    // gap: 32px;
   }
 
   @include desktop {
     flex-wrap: wrap;
-    column-gap: 16px;
-    row-gap: 32px;
+    // column-gap: 16px;
+    // row-gap: 32px;
   }
 }
 
-.gallery__item-library {
+.gallery__item--library {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -122,7 +122,7 @@ main {
   }
 
   @include desktop {
-    width: 394px;
+    width: 385px;
     height: 634px;
   }
 
