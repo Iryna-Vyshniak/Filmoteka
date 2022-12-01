@@ -56,10 +56,12 @@ a:not([class]) {
   @media screen and (min-width: $mobile) {
     width: $mobile;
   }
+
   @media screen and (min-width: $tablet) {
     width: $tablet;
     padding: 0 32px;
   }
+
   @media screen and (min-width: $desktop) {
     width: $desktop;
     padding: 0 32px;
