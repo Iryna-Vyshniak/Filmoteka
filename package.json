@@ -2,10 +2,10 @@
   "name": "FilmotekaProject",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://MarkoVoitovych.github.io/FilmotekaProject",
+  "homepage": "https://Iryna-Vyshniak.github.io/Filmoteka",
   "scripts": {
-    "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /FilmotekaProject/"
+    "start": "parcel src/*.html -p 7711 --open",
+    "build": "parcel build src/*.html --public-url /Filmoteka/"
   },
   "repository": {
     "type": "git",
