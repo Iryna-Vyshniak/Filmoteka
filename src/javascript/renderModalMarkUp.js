@@ -66,8 +66,8 @@ ${overview}
 </p>
 
 <div class="lightbox-modal__buttons">
-<button type="button" class="lightbox-modal__watched-button lightbox-modal__button" data-btn='${id}' data-id='${stringifiedJSONFilmData}'>Add to Watched</button>
-<button type="button" class="lightbox-modal__queque-button lightbox-modal__button" data-btn='${id}' data-id='${stringifiedJSONFilmData}'>Add to queue</button>
+<button type="button" class="lightbox-modal__watched-button lightbox-modal__button" data-btn='${id}' data-type='watched' data-id='${stringifiedJSONFilmData}'>Add to Watched</button>
+<button type="button" class="lightbox-modal__queque-button lightbox-modal__button" data-btn='${id}' data-type='queue' data-id='${stringifiedJSONFilmData}'>Add to queue</button>
 </div>
 
 </div>`,

@@ -9,8 +9,8 @@ export class ThemoviedbAPI {
   genres = [];
 
   constructor() {
-    this.WATCH_KEY = 'Watched';
-    this.QUEUE_KEY = 'Queue';
+    this.WATCH_KEY = 'watched';
+    this.QUEUE_KEY = 'queue';
   }
   async fetchFavouritesMovies(page) {
     const params = new URLSearchParams({

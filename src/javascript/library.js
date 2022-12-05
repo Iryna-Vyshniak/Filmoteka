@@ -1,12 +1,12 @@
-import BigPicture from 'bigpicture';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 import { libRefs } from './libRefs';
 import { renderLibraryMarkup } from './renderLibraryMarkUp';
 import { ThemoviedbAPI } from './themoviedbAPI';
+import { scrollFunction } from './scroll';
 import { createModalMarkUp } from './renderModalMarkUp';
 import { spinnerPlay, spinnerStop } from './spiner';
-import { get, removeLocal } from './localStorageUse';
+import { load, removeLocal } from './localStorageUse';
+import { getTrailer } from './getTrailer';
 import { libraryFooterModalOpen } from './libraryFooterModalOpen';
 
 const themoviedbAPI = new ThemoviedbAPI();
@@ -16,6 +16,7 @@ libRefs.watchBtn.classList.add('is-active-library');
 try {
   spinnerPlay();
   renderWatchedMovies();
+  window.addEventListener('scroll', scrollFunction);
   libRefs.footerLink.addEventListener('click', libraryFooterModalOpen);
 } catch (error) {
   Notify.failure('Ооps, something went wrong, please try again');
@@ -35,7 +36,7 @@ libRefs.queueBtn.addEventListener('click', () => {
 });
 libRefs.library.addEventListener('click', onMovieCardClick);
 
-function displayBg(array) {
+export function displayBg(array) {
   const emptyTitle = document.querySelector('.js-title-queue');
   const emptyImg = document.querySelector('.js-library-bg-image');
   const mainEl = document.querySelector('main');
@@ -51,9 +52,9 @@ function displayBg(array) {
   }
 }
 
-async function renderWatchedMovies() {
+export async function renderWatchedMovies() {
   libRefs.library.innerHTML = '';
-  const watchedMovies = get(themoviedbAPI.WATCH_KEY);
+  const watchedMovies = load(themoviedbAPI.WATCH_KEY);
   displayBg(watchedMovies);
   try {
     const watchedMoviesIds = watchedMovies.map(movie => movie.id);
@@ -72,16 +73,15 @@ async function renderWatchedMovies() {
       );
       libRefs.library.lastElementChild.setAttribute('data-status', 'watched');
     });
-  }
-  catch (error) {
+  } catch (error) {
     Notify.failure('Ооps, something went wrong, please try again');
   }
 }
 
-async function renderQueueMovies() {
+export async function renderQueueMovies() {
   spinnerPlay();
   libRefs.library.innerHTML = '';
-  const queueMovies = get(themoviedbAPI.QUEUE_KEY);
+  const queueMovies = load(themoviedbAPI.QUEUE_KEY);
   displayBg(queueMovies);
   const queueMoviesIDes = queueMovies.map(movie => movie.id);
   try {
@@ -100,11 +100,10 @@ async function renderQueueMovies() {
       );
       libRefs.library.lastElementChild.setAttribute('data-status', 'queue');
     });
-  }
-  catch (error) {
+  } catch (error) {
+    console.log(error);
     Notify.failure('Ооps, something went wrong, please try again');
-  }
-  finally {
+  } finally {
     spinnerStop();
   }
 }
@@ -140,6 +139,7 @@ async function onMovieCardClick(event) {
       });
       filmData.genres = filmData.genres.join(', ');
 
+      getTrailer(movieId, themoviedbAPI);
       createModalMarkUp(filmData);
 
       const removeFromWatchedBtn = document.querySelector(
@@ -151,7 +151,6 @@ async function onMovieCardClick(event) {
 
       removeFromWatchedBtn.addEventListener('click', onRemoveFromWatchedClick);
       removeFromQuequeBtn.addEventListener('click', onRemoveFromQuequeClick);
-
 
       checkLocalStorageLibrary(
         themoviedbAPI.WATCH_KEY,
@@ -171,13 +170,18 @@ async function onMovieCardClick(event) {
 
       function onRemoveFromWatchedClick(e) {
         const movieId = e.target.dataset.btn;
+
         removeLocal(themoviedbAPI.WATCH_KEY, movieId);
         e.target.textContent = 'Removed from Watched';
         e.target.disabled = true;
         if (e.target.dataset.list === movieStatus) {
           movieCard.remove();
         }
-        displayBg(get(themoviedbAPI.WATCH_KEY))
+        if (libRefs.watchBtn.classList.contains('is-active-library')) {
+          displayBg(load(themoviedbAPI.WATCH_KEY));
+        } else {
+          displayBg(load(themoviedbAPI.QUEUE_KEY));
+        }
       }
 
       function onRemoveFromQuequeClick(e) {
@@ -188,10 +192,15 @@ async function onMovieCardClick(event) {
         if (e.target.dataset.list === movieStatus) {
           movieCard.remove();
         }
-        displayBg(get(themoviedbAPI.QUEUE_KEY))
+        if (libRefs.watchBtn.classList.contains('is-active-library')) {
+          displayBg(load(themoviedbAPI.WATCH_KEY));
+        } else {
+          displayBg(load(themoviedbAPI.QUEUE_KEY));
+        }
       }
     });
   } catch (error) {
+    console.log(error);
     Notify.failure('Ооps, something went wrong, please try again');
   } finally {
     spinnerStop();
@@ -199,7 +208,7 @@ async function onMovieCardClick(event) {
 }
 
 function checkLocalStorageLibrary(key, filmData, btn, btnText, status) {
-  const locStorage = get(key);
+  const locStorage = load(key);
   const currentFilm = filmData;
   const includesFilm = locStorage.find(film => film.id === currentFilm.id);
 

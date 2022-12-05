@@ -1,9 +1,10 @@
-import { refs } from './refs';
+import { getOneMovieInfo } from './getMovieInfo';
 import { allProducts } from '/src/index';
 import { createModalMarkUp } from './renderModalMarkUp';
 import { ThemoviedbAPI } from './themoviedbAPI';
-import BigPicture from 'bigpicture';
-import { set, get, remove } from './localStorageUse';
+import { getTrailer } from './getTrailer';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { save, load } from './localStorageUse';
 import { spinnerPlay, spinnerStop } from './spiner';
 
 const movieAPI = new ThemoviedbAPI();
@@ -52,6 +53,7 @@ async function onFilmCardClick(event) {
         ? `https://image.tmdb.org/t/p/w300${data.poster_path}`
         : `https://astoriamuseums.org/wp-content/uploads/2020/10/OFM-poster-not-available.png`;
       const releaseYear = new Date(Date.parse(data.release_date)).getFullYear();
+
       const filmData = {
         id: data.id,
         poster: posterPath,
@@ -65,15 +67,18 @@ async function onFilmCardClick(event) {
         release_date: releaseYear,
       };
 
-      const stringifiedJSONFilmData = JSON.stringify(filmData);
       data.genres.forEach(genre => {
         filmData.genres.push(genre.name);
       });
       filmData.genres = filmData.genres.join(', ');
 
-      createModalMarkUp(filmData, stringifiedJSONFilmData);
+      const stringifiedJSONFilmData = JSON.stringify(filmData);
+      const filmDataObj = getOneMovieInfo(data);
+      save('modalInfo', filmDataObj);
 
-      getTrailer(filmId);
+      createModalMarkUp(filmData, filmDataObj);
+
+      getTrailer(filmId, movieAPI);
 
       const addToWatchedBtn = document.querySelector(
         '.lightbox-modal__watched-button'
@@ -83,20 +88,20 @@ async function onFilmCardClick(event) {
         '.lightbox-modal__queque-button'
       );
       checkLocalStorage(
-        movieAPI.WATCH_KEY,
-        filmData,
+        'watched',
+        filmDataObj,
         addToWatchedBtn,
         'Added to watched'
       );
       checkLocalStorage(
-        movieAPI.QUEUE_KEY,
-        filmData,
+        'queue',
+        filmDataObj,
         addToQuequeBtn,
         'Added to queque'
       );
 
-      addToWatchedBtn.addEventListener('click', onAddToWatchedClick);
-      addToQuequeBtn.addEventListener('click', onAddToQuequeClick);
+      addToWatchedBtn.addEventListener('click', onModalBtnClick);
+      addToQuequeBtn.addEventListener('click', onModalBtnClick);
     });
   } catch (error) {
     Notify.failure('Ооps, something went wrong, please try again');
@@ -105,55 +110,23 @@ async function onFilmCardClick(event) {
   }
 }
 
-function getTrailer(filmId) {
-  try {
-    movieAPI.fetchTrailerById(filmId).then(result => {
-      const trailers = result.results;
-      if (trailers.length > 0) {
-        const trailerBtn = document.querySelector('.lightbox-modal__trailer');
-        trailerBtn.classList.remove('is-hidden');
-        const officialTrailer = trailers.find(
-          el =>
-            el.name === 'Official Trailer' ||
-            el.name.includes('Official') ||
-            el.name[0]
-        );
-        const trailerKey = officialTrailer.key;
-
-        trailerBtn.addEventListener('click', ontrailerBtnClick);
-
-        function ontrailerBtnClick(e) {
-          BigPicture({
-            el: e.target,
-            ytSrc: `${trailerKey}`,
-          });
-        }
-      }
-    });
-  } catch {
-    er => {
-      console.log(er);
-    };
+function onModalBtnClick(event) {
+  addToLocalStorage(
+    +event.target.dataset.btn,
+    event.target.dataset.type,
+    event.target.dataset.id
+  );
+  if ((event.target.dataset.type = 'watched')) {
+    event.target.textContent = 'Added to watched';
   }
-}
-
-function onAddToWatchedClick(event) {
-  event.preventDefault();
-  event.target.textContent = 'Added to watched';
+  if ((event.target.dataset.type = 'queue')) {
+    event.target.textContent = 'Added to queque';
+  }
   event.target.disabled = true;
-
-  set(movieAPI.WATCH_KEY, event.target.dataset.id);
-}
-
-function onAddToQuequeClick(event) {
-  event.preventDefault();
-  event.target.textContent = 'Added to queque';
-  event.target.disabled = true;
-  set(movieAPI.QUEUE_KEY, event.target.dataset.id);
 }
 
 function checkLocalStorage(key, filmData, btn, btnText) {
-  const locStorage = get(key);
+  const locStorage = load(key);
   const currentFilm = filmData;
   const includesFilm = locStorage.find(film => film.id === currentFilm.id);
 
@@ -161,4 +134,20 @@ function checkLocalStorage(key, filmData, btn, btnText) {
     btn.textContent = `${btnText}`;
     btn.disabled = true;
   }
+}
+
+function addToLocalStorage(id, type, data) {
+  const localStorageItem = load(type) || [];
+  if (localStorageItem.find(info => info?.id === id)) return;
+  const movieInfo = load('modalInfo');
+  localStorageItem.push(movieInfo);
+  save(type, localStorageItem);
+}
+
+async function addToFirebase(id, type) {
+  const isInLyb = await instance.isInLyb(id, type);
+  if (isInLyb) return;
+  const movieInfo = load('modalInfo');
+  instance.addToLyb(id, type, movieInfo);
+  Notify.success('The movie added to your library');
 }

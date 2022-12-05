@@ -21,6 +21,8 @@
     "axios": "^1.2.0",
     "basiclightbox": "^5.0.4",
     "bigpicture": "^2.6.2",
+    "dotenv": "^16.0.3",
+    "firebase": "^9.14.0",
     "lodash.debounce": "^4.0.8",
     "modern-normalize": "^1.1.0",
     "notiflix": "^3.2.5",

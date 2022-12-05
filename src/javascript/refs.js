@@ -10,4 +10,8 @@ export const refs = {
   btnUpWrapper: document.querySelector('.btn-up'),
   noResultsTitle: document.querySelector('.no-result-title'),
   noResultsImg: document.querySelector('.no-result-image'),
+
+  signInBtnEl: document.querySelector('.js-signIn-btn'),
+  signOutBtnEl: document.querySelector('.js-signOut-btn'),
+  userStatusEl: document.querySelector('.js-userStatus'),
 };
